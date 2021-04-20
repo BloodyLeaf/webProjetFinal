@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inventaire{% endblock %}
+
+{% block body %}
+
+
+<table id="inventaire" class="display responsive compact nowrap" style="width:95%">
+    <thead>
+        <tr>
+            <th >Nom</th>
+            <th >Description</th>
+            <th >QTE Total</th>
+            <th >QTE Emprunter</th>
+            <th >QTE Perdu</th>
+            <th >QTE Brise</th>
+            <th class="none">Image</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        {% for piece in pieces %}
+        {#% set ref = "produit/" ~ produit.id %#}
+         <tr>
+                
+                <td> {{ piece.nom }}</td>
+                <td> {{ piece.description }}</td>
+                <td> <input type="text" name="QteTotal" value="{{ piece.QteTotal }}" onblur="changeQTE({{piece.id}}, this)"> </td>
+                <td>{{ piece.QteEmprunter }}</td>
+                <td>{{ piece.QtePerdu }}</td>
+                <td> {{ piece.QteTotal }}</td>
+                <td> <a href="#2"> Voir l'image </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
