@@ -1,0 +1,59 @@
+#navItem1{
+ color :white;
+}
+
+#navItem2{
+ color :white;
+}
+
+#navItem3{
+ color :white;
+}
+
+#navItem4{
+ color :white;
+}
+
+#navItem5{
+ color :white;
+}
+
+#navItem6{
+ color :white;
+}
+
+#navItem7{
+ color :white;
+}
+
+
+nav li {
+    padding-left: 8em;
+}
+
+
+.center{
+    text-align: center;
+}
+
+
+.white{
+    color: white;
+}
+
+
+.borderColor{
+    background-color: #36393f;
+}
+
+.footer{
+    padding: 25px;
+}
+
+
+
+#table_id{
+    width: 95%;
+}
+
+
