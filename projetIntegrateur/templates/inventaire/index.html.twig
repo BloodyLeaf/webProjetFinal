@@ -3,6 +3,12 @@
 {% block title %}Inventaire{% endblock %}
 
 {% block body %}
+<br>
+<br>
+<h1> Liste des pièces </h1>
+<br>
+<br>
+
 
 
 <table id="inventaire" class="display responsive compact nowrap" style="width:95%">
@@ -10,6 +16,7 @@
         <tr>
             <th >Nom</th>
             <th >Description</th>
+            <th >Categorie</th>
             <th >QTE Total</th>
             <th >QTE Emprunter</th>
             <th >QTE Perdu</th>
@@ -22,15 +29,15 @@
     </thead>
     <tbody>
         {% for piece in pieces %}
-        {#% set ref = "produit/" ~ produit.id %#}
-         <tr>
-                
-                <td> {{ piece.nom }}</td>
-                <td> {{ piece.description }}</td>
-                <td> <input type="text" name="QteTotal" value="{{ piece.QteTotal }}" onblur="changeQTE({{piece.id}}, this, {{piece.QteTotal}})"> </td>
-                <td>{{ piece.QteEmprunter }}</td>
-                <td>{{ piece.QtePerdu }}</td>
-                <td> {{ piece.QteTotal }}</td>
+        {#% set ref = "piece/" ~ piece[0].id %#}
+         <tr> 
+                <td> {{ piece[0].nom }}</td>
+                <td> {{ piece[0].description }}</td>
+                <td> {{ piece['categorie'] }}</td>
+                <td> <input type="text" name="QteTotal" value="{{ piece[0].QteTotal }}" onblur="changeQTE({{piece[0].id}}, this, {{piece[0].QteTotal}})"> </td>
+                <td>{{ piece[0].QteEmprunter }}</td>
+                <td>{{ piece[0].QtePerdu }}</td>
+                <td> {{ piece[0].QteTotal }}</td>
                 <td> <a href="#2"> Voir l'image </td>
                 <td> <a class="btn btn-primary" href="#" role="button">Modifer</a> </td>
                 <td> <a class="btn btn-danger" href="#" role="button">Supprimer</a> </td>
@@ -38,5 +45,6 @@
         {% endfor %}
     </tbody>
 </table>
+
 
 {% endblock %}

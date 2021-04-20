@@ -13,12 +13,12 @@ class InventaireController extends AbstractController
     /**
      * @Route("/inventaire", name="inventaire")
      */
-    public function index(): Response
+    public function index()
     {
 
         $piecesrepository = $this->getDoctrine()->getManager()->getRepository(Piece::class);
-        $lstPieces = $piecesrepository->findAll();
-
+        //$lstPieces = $piecesrepository->findAll();
+        $lstPieces = $piecesrepository->lstPieceCategorie();
         return $this->render('inventaire/index.html.twig', [
             'controller_name' => 'InventaireController',
             'pieces' => $lstPieces,
