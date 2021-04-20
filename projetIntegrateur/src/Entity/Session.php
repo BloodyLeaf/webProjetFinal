@@ -30,7 +30,7 @@ class Session
     private $dateFinSession;
 
     /**
-     * @ORM\ManyToOne(targetEntity=saison::class)
+     * @ORM\ManyToOne(targetEntity=Saison::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $idSaison;
