@@ -43,11 +43,11 @@ class ApiMobileController extends AbstractController
         $listpiece = $piecesRepository->findAll();
         $pieceArray = array();
         foreach($listpiece as $piece){
-            $qqt = ($piece->getQteTotal()) - ($piece->getQteEmprunter()) - ($piece->getQteBrise()) - ($piece->getQtePerdu());
-            if ($qqt > 0) {
+            //$qqt = ($piece->getQteTotal()) - ($piece->getQteEmprunter()) - ($piece->getQteBrise()) - ($piece->getQtePerdu());
+           // if ($qqt > 0) {
                 $pieceDesc = $piece->toArrayInventory();
                 array_push($pieceArray,$pieceDesc);
-            }
+            //}
         }
         
 
@@ -59,6 +59,8 @@ class ApiMobileController extends AbstractController
      */
     public function getComandState($id): JsonResponse
     {
+        //j'ai besoin d'un premier utilisateur mais je vais attendre que l'interface d'inscription sois fait pour éviter des probleme 
+        // d'un mauvais insert 
         $em = $this->getDoctrine()->getManager();
         $empruntRepository = $em->getRepository(Emprunt::class);
         $emprunt = $empruntRepository->find($id);
