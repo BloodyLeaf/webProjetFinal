@@ -20,6 +20,8 @@ $(document).ready( function () {
         },
 
         responsive: true,
+
+    
     });
     
    
@@ -27,16 +29,29 @@ $(document).ready( function () {
 } );
 
 
+function changeQTE(id, e,currentTotal){
 
+if(currentTotal != e.value){
+      //Créer l'objet
+   var xhttp = new XMLHttpRequest();
 
-
-
-function changeQTE(id, e){
-
-    console.log(id)
-    console.log(e.value)
-
+   // Fonction qui sera appelée quand l'état de la requête change
+   xhttp.onreadystatechange = function() {
+  
+   // Si l'état est 4 (terminé) et le statut 200 (OK)
+   if (this.readyState == 4 && this.status == 200) {
     
+     alert("Quantité changé !")
+ 
+   }
+ };
+ //Quel URL doit-on appeler et est-ce en GET ou en POST
+ xhttp.open("POST", "chanqueQTETotal", true);
+ xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+ // Envoie la requête
+ xhttp.send("id="+id+"&qte="+e.value);
+}
+  
 }
 
 
