@@ -25,7 +25,7 @@ class LoginController extends AbstractController
             if ($user->getPasswordReset() == true)
                 return $this->redirectToRoute('change_password');
             else
-                return $this->redirectToRoute('app_register');
+                return $this->redirectToRoute('accueil');
          }
 
         // get the login error if there is one
@@ -68,7 +68,7 @@ class LoginController extends AbstractController
             $em->persist($user);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('app_register'));
+            return $this->redirect($this->generateUrl(''));
         }
 
         return $this->render('security/changePassword.html.twig', ['form' => $form->createView()]);
