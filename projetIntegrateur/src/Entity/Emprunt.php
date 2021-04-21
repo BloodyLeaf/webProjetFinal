@@ -53,9 +53,13 @@ class Emprunt
     private $idSession;
 
     /**
-     * @ORM\OneToMany(targetEntity=CycleVieEmprunt::class, mappedBy="idEmprunt")
+     * @ORM\ManyToOne(targetEntity=EtatEmprunt::class)
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $cycleVieEmprunts;
+    private $idEtat;
+
+
+
 
     public function __construct()
     {
@@ -139,32 +143,14 @@ class Emprunt
         return $this;
     }
 
-    /**
-     * @return Collection|CycleVieEmprunt[]
-     */
-    public function getCycleVieEmprunts(): Collection
+    public function getIdEtat(): ?EtatEmprunt
     {
-        return $this->cycleVieEmprunts;
+        return $this->idEtat;
     }
 
-    public function addCycleVieEmprunt(CycleVieEmprunt $cycleVieEmprunt): self
+    public function setIdEtat(?EtatEmprunt $idEtat): self
     {
-        if (!$this->cycleVieEmprunts->contains($cycleVieEmprunt)) {
-            $this->cycleVieEmprunts[] = $cycleVieEmprunt;
-            $cycleVieEmprunt->setIdEmprunt($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCycleVieEmprunt(CycleVieEmprunt $cycleVieEmprunt): self
-    {
-        if ($this->cycleVieEmprunts->removeElement($cycleVieEmprunt)) {
-            // set the owning side to null (unless already changed)
-            if ($cycleVieEmprunt->getIdEmprunt() === $this) {
-                $cycleVieEmprunt->setIdEmprunt(null);
-            }
-        }
+        $this->idEtat = $idEtat;
 
         return $this;
     }

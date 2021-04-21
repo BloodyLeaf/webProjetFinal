@@ -47,4 +47,18 @@ class PieceRepository extends ServiceEntityRepository
         ;
     }
     */
+
+
+    /**
+     * Fonction qui liste les attributs de pieces en plus du nom de la catégorie qu'il sont associés
+     */
+    public function lstPieceCategorie(){
+
+        $listeProduit = $this->getEntityManager()
+        ->createQuery("SELECT p,c.nom AS categorie FROM App\Entity\Piece p , App\Entity\Categorie c WHERE p.idCategorie = c.id")
+        ->getArrayResult();
+
+        return $listeProduit;
+    }
+
 }

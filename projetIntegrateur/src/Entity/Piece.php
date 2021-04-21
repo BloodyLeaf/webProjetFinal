@@ -183,4 +183,18 @@ class Piece
 
         return $this;
     }
+    public function toArrayMobile(){
+        return [
+            'id' => $this->getId(),
+            'nom' => $this->getNom(),
+            'description' => $this->getDescription()
+        ];
+    }
+    
+    public function toArrayInventory(){
+        return [
+            'id' => $this->getId(),
+            'qqt' => (($this->getQteTotal()) - ($this->getQteEmprunter()) - ($this->getQteBrise()) - ($this->getQtePerdu()))
+        ];
+    }
 }
