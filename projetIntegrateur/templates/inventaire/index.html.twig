@@ -34,7 +34,7 @@
                 <td> {{ piece[0].nom }}</td>
                 <td> {{ piece[0].description }}</td>
                 <td> {{ piece['categorie'] }}</td>
-                <td> <input type="text" name="QteTotal" value="{{ piece[0].QteTotal }}" onblur="changeQTE({{piece[0].id}}, this, {{piece[0].QteTotal}})"> </td>
+                <td> <input type="text" name="QteTotal" value="{{ piece[0].QteTotal }}" onblur="changeQTE({{piece[0].id}}, this, {{piece[0].QteTotal}})" readonly="true" ondblclick="this.readOnly='';"> </td>
                 <td>{{ piece[0].QteEmprunter }}</td>
                 <td>{{ piece[0].QtePerdu }}</td>
                 <td> {{ piece[0].QteTotal }}</td>
