@@ -47,4 +47,28 @@ class EmpruntRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /**
+     * Fonction qui liste les reservations
+     */
+    public function lstReservation(){
+
+        
+        $listeReservation = $this->getEntityManager()
+        ->createQuery(" SELECT e.id, e.Qte, e.dateRetourPrevue, ee.nom AS Etat, CONCAT(u.prenom,' ',u.nom) AS Etudiant, p.nom AS Pieces from App\Entity\Emprunt e
+        JOIN App\Entity\EtatEmprunt ee WITH e.idEtat = ee.id
+        JOIN App\Entity\Utilisateur u WITH  e.idUtilisateur = u.id
+        JOIN App\Entity\Piece p WITH e.idPiece = p.id
+        WHERE ee.nom != 'Terminer' ")
+        ->getArrayResult();
+
+        return $listeReservation;
+    }
+
+    public function updateEtat($id,$etat){
+
+
+        $this->getEntityManager()
+        ->createQuery("UPDATE App\Entity\Emprunt e SET e.idEtat = $etat WHERE e.id = $id")->execute();
+    }
 }

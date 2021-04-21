@@ -17,7 +17,6 @@ class InventaireController extends AbstractController
     {
 
         $piecesrepository = $this->getDoctrine()->getManager()->getRepository(Piece::class);
-        //$lstPieces = $piecesrepository->findAll();
         $lstPieces = $piecesrepository->lstPieceCategorie();
         return $this->render('inventaire/index.html.twig', [
             'controller_name' => 'InventaireController',
