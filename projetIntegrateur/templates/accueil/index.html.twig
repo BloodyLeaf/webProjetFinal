@@ -10,4 +10,45 @@
 <br>
 
 
+<table id="reservation" class="display responsive compact nowrap" style="width:95%">
+    <thead>
+        <tr>
+            <th >Étudiant</th>
+            <th >Pièces</th>
+            <th >Qte empruntée</th>
+            <th >Date de retour</th>
+            <th >État</th>
+            <th >Retourner</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+       {% for reservation in reservations %}
+        <tr> 
+                <td> {{ reservation['Etudiant'] }}</td>
+                <td> {{ reservation['Pieces'] }}</td>
+                <td> {{ reservation['Qte'] }}</td>
+                <td> {{ reservation['dateRetourPrevue'] | date('Y-m-d') }}</td>
+                <td> <select name="etat" onchange="modifierEtat({{reservation['id']}}, this)">
+                        {% for etat in etats %}
+                                <option value="{{etat.id}}" {% if reservation['Etat'] == etat.nom %} selected {% endif %}>{{etat.nom}} 
+                                </option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td> <a class="btn btn-dark" href="#" role="button">Retourner</a> </td>
+         </tr>
+        {% endfor %}
+    </tbody>
+     <tfoot>
+            <tr>
+            <th>Étudiant</th>
+            <th >Pièces</th>
+            <th >Qte empruntée</th>
+            <th >Date de retour</th>
+            <th >État</th>
+            <th >Retourner</th>
+            </tr>
+        </tfoot>
+</table>
 {% endblock %}
