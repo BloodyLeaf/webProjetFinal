@@ -41,8 +41,6 @@ class LoginController extends AbstractController
      */
     public function changePassword(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
         $user = new Utilisateur;
         $user = $this->getUser();
 
