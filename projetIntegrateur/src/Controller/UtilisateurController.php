@@ -14,15 +14,17 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class UtilisateurController extends AbstractController
 {
 
-   /*
+    /**
+     * @Route("/utilisateurs", name="liste_utilisateurs")
+     */
     public function listUtilisateurs() {
         $em = $this->getDoctrine()->getManager();
         $utilisateursRepository = $em->getRepository(Utilisateur::class);
 
         $listeUtilisateurs = $utilisateursRepository->findAll();
-        return $this->render('utilisateur/listProduits.html.twig', ['listeproduits' => $listeProduits]);
+        return $this->render('utilisateur/listUtilisateurs.html.twig', ['utilisateurs' => $listeUtilisateurs]);
     }
-    */
+    
     /**
      * @Route("/ajoututilisateur", name="ajouter_utilisateur")
      */
@@ -88,7 +90,7 @@ class UtilisateurController extends AbstractController
 
         $utilisateur = $UtilisateurRepository->find($id);
         $form = $this->createForm(UtilisateurFormType::class, $utilisateur);
-        $form->add('sauvegarder', SubmitType::class, ['label' => 'sauvegarder']);
+        $form->add('sauvegarder', SubmitType::class, array('label'=>'sauvegarder'));
 
         $form->handleRequest($request);
 
@@ -97,8 +99,10 @@ class UtilisateurController extends AbstractController
             $em->persist($utilisateur);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('ajouter_utilisateur'));
+            return $this->redirect($this->generateUrl('liste_utilisateurs'));
         }
-        return $this->render('utilisateur/utilisateurForm.html.twig', ['utilisateurForm' => $form->createView()]);
+        return $this->render('utilisateur/utilisateurForm.html.twig', [
+            'utilisateurForm' => $form->createView(),
+            ]);
     }
 }

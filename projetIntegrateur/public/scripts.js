@@ -23,6 +23,27 @@ $(document).ready( function () {
 
     
     });
+
+    tableInventaire =  $('#utilisateurs').DataTable({
+
+      "language": {
+          "lengthMenu": "Afficher _MENU_ par pages",
+          "search": "Rechercher:",
+          "zeroRecords": "Aucun utilisateur trouvé",
+          "info": "Page _PAGE_ de _PAGES_",
+          "infoEmpty": "Aucune pièce dans l'inventaire",
+          "infoFiltered": "(filtrer dans _MAX_ enregistrement)",
+          "paginate": {
+    "next": "Page suivante",
+    "previous": "page précédente"
+    
+  }
+      },
+
+      responsive: true,
+
+  
+  });
     
    
 
