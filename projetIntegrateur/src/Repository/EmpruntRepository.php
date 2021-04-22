@@ -65,8 +65,11 @@ class EmpruntRepository extends ServiceEntityRepository
         return $listeReservation;
     }
 
+    
+    /*
+        Permet de changer l'état d'une commande
+    */
     public function updateEtat($id,$etat){
-
 
         $this->getEntityManager()
         ->createQuery("UPDATE App\Entity\Emprunt e SET e.idEtat = $etat WHERE e.id = $id")->execute();
