@@ -77,7 +77,7 @@ class AccueilController extends AbstractController
         if($emprunt->getQteActuelle() == 0){
             $em->getRepository(Emprunt::class)->updateEtat($info['id'],4);
         }       
-
+        //test commentaire
         //diminue les QTE
         if(sizeof($info) > 2){
 
