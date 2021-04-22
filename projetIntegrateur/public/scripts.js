@@ -1,6 +1,54 @@
 
+/* Custom filter pour filtrer la table par categorie */
+$.fn.dataTable.ext.search.push(
+  function( settings, data, dataIndex ) {
+    if ( settings.nTable.id !== 'inventaire' ) {
+      return true;
+    }
+      var categorieFilter = $("#filterCategorie").val();
+      var categorie = data[2]; 
+
+      if ( ( categorieFilter == "" ) ||
+           ( categorieFilter == categorie ) )
+      {
+          return true;
+      }
+      return false;
+  }
+);
+
+
+
+/* Custom filter pour filtrer la table par État de réservation */
+
+$.fn.dataTable.ext.search.push(
+  function( settings, data, dataIndex ) {
+    //Si c'est n'est pas la table Réservation, n'applique pas le filtre
+    if ( settings.nTable.id !== 'reservation' ) {
+      return true;
+    }
+    
+      var filterEtat = $("#filterEmprunt").val();   //Va chercher la valeur du select avec les filtres
+      var Etat = data[6];                           //Va chercher les valeurs des ID État qui sont dans une colonne caché
+
+      if ( ( filterEtat == "" ) ||                  // si le filtre est vide ou à un état en particulier, affiche le tout
+           ( filterEtat == Etat ) )
+      {
+          return true;
+     }
+      return false;
+  }
+);
+
+
+
+
 var tableReservation
 
+
+/*
+table inventaire
+*/ 
 $(document).ready( function () {
 
   tableInventaire =  $('#inventaire').DataTable({
@@ -24,6 +72,17 @@ $(document).ready( function () {
     
     });
 
+    //Event listener pour les filtre de la table inventaire
+    $('#filterCategorie').change( function() {
+      tableInventaire.draw();
+    } );
+
+
+
+
+    /*
+    table Utilisateur
+    */ 
     tableUtilisateurs =  $('#utilisateurs').DataTable({
 
       "language": {
@@ -45,6 +104,10 @@ $(document).ready( function () {
   
   });
 
+
+  /*
+  table Reservation
+  */ 
   tableReservation =  $('#reservation').DataTable({
 
     "language": {
@@ -52,7 +115,7 @@ $(document).ready( function () {
         "search": "Rechercher:",
         "zeroRecords": "Aucune réservation trouvée",
         "info": "Page _PAGE_ de _PAGES_",
-        "infoEmpty": "Aucune pièce dans l'inventaire",
+        "infoEmpty": "Aucune Réservation dans l'inventaire",
         "infoFiltered": "(filtrer dans _MAX_ enregistrement)",
         "paginate": {
   "next": "Page suivante",
@@ -64,20 +127,43 @@ $(document).ready( function () {
     responsive: true,
 
 
-});
-    
+    "columnDefs": [
+      {
+          "targets": [ 6 ],
+          "visible": false,
+          "searchable": true
+      }
+  ],
+
   
 
 
+});
+
+  //Event listener pour les filtres de la table réservation
+ $('#filterEmprunt').change( function() {
+  tableReservation.draw();
+} );
+    
+  
 
 } );
 
+
+
+function message(idDisplay,idText,message){
+  document.getElementById(idText).innerHTML = message
+  $(idDisplay).fadeIn();
+  setTimeout(function() {
+    $(idDisplay).fadeOut();
+    }, 2000);
+}
 
 function changeQTE(id, e,currentTotal){
 
 //Assure que ce sois un nombre positif
 if(!(/^0*[0-9]\d*$/.test(e.value))){
-  alert("Vous devez entré un nombre positif")
+  message("#errorMessageDisplay", "errorMessage","Entré une valeur positive")
   return
 }
 
@@ -95,11 +181,14 @@ if(currentTotal != e.value){
    if (this.readyState == 4 && this.status == 200) {
     
    
-    if(this.responseText == "fail")
-      alert("Une erreur c'est produite")
+    if(this.responseText == "fail"){
+      message("#errorMessageDisplay", "errorMessage","Entré une valeur positive")
+    }
     else{
-      alert("Quantité changé !")
-      location.reload()
+      message("#successMessageDisplay", "successMessage","Quantité changée !")
+      setTimeout(function() {
+        location.reload()
+        }, 2200);
     }
     
    }
@@ -128,8 +217,10 @@ function modifierEtat(id, e){
   // Si l'état est 4 (terminé) et le statut 200 (OK)
   if (this.readyState == 4 && this.status == 200) {
        
-    alert("État changé !")
-    location.reload()
+    message("#successMessageDisplay", "successMessage","État changée !")
+      setTimeout(function() {
+        location.reload()
+        }, 2200);
   }
 
   };
@@ -215,7 +306,7 @@ function traitementRetourPiece(){
 
   //Assure que ce sois un nombre positif pour la QTE retourner et qu'elle sois inférieure à la QTE emprunter
   if(!(/^0*[1-9]\d*$/.test(QTERetourner)) || parseInt(QTERetourner) > parseInt(QTEEmprunter)){
-  alert("Enter une quantité retourné valide")
+  message("#errorMessageDisplayReturn", "errorMessageReturn","Enter une quantité retourné valide")
   return
   }
 
@@ -230,31 +321,31 @@ function traitementRetourPiece(){
 
     //Assure que ce sois un nombre positif pour la QTE perdu
     if(!(/^0*[0-9]\d*$/.test(QTEPerdu))){
-      alert("Enter une quantité perdue  valide")
+      message("#errorMessageDisplayReturn", "errorMessageReturn","Enter une quantité perdue valide")
       return
     }
     //Assure que ce sois un nombre positif pour la QTE Brisé
     if(!(/^0*[0-9]\d*$/.test(QTEBrise))){
-      alert("Enter une quantité Brisée valide")
+      message("#errorMessageDisplayReturn", "errorMessageReturn","Enter une quantité Brisée valide")
       return
     }
 
     //Assure qu'il y a bel et bien un bris si la case oui est coché
     if(QTEPerdu == 0 && QTEBrise == 0){
-      alert("Coché non si il n'y à pas de pièces brisé ou perdu ! ")
+      message("#errorMessageDisplayReturn", "errorMessageReturn","Coché non si il n'y à pas de pièces brisé ou perdu ! ")
       return
     }
 
     //Assure que l'adition de QTE Brisé et QTE perdu ne dépasse pas la QTE retourner
     if( (parseInt(QTEPerdu) + parseInt(QTEBrise)) > parseInt(QTERetourner)){
-      alert("Enter des quantités valides")
+      message("#errorMessageDisplayReturn", "errorMessageReturn","Enter des quantités perdues et brisée valides")
       return
     }
 
 
     //Assure qu'il y a une description
     if (desc == ""){
-      alert("Vous devez entrez une description de l'évenement")
+      message("#errorMessageDisplayReturn", "errorMessageReturn","Vous devez entrez une description de l'évenement")
       return
     }
 
@@ -273,10 +364,12 @@ function traitementRetourPiece(){
   if (this.readyState == 4 && this.status == 200) {
        
     if(this.responseText == "fail")
-    alert("Une erreur c'est produite")
+      message("#errorMessageDisplay", "errorMessage","Une erreur c'est produite")
     else{
-    alert("Retour effectué!")
-    location.reload()
+      message("#successMessageDisplay", "successMessage","Retour effectué !")
+      setTimeout(function() {
+        location.reload()
+        }, 2200);
     }
   }
 

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Categorie;
 use App\Entity\Piece;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,9 +19,14 @@ class InventaireController extends AbstractController
 
         $piecesrepository = $this->getDoctrine()->getManager()->getRepository(Piece::class);
         $lstPieces = $piecesrepository->lstPieceCategorie();
+
+        $categorierepository = $this->getDoctrine()->getManager()->getRepository(Categorie::class);
+        $lstCategorie = $categorierepository->findAll();
+
         return $this->render('inventaire/index.html.twig', [
             'controller_name' => 'InventaireController',
             'pieces' => $lstPieces,
+            'categories' => $lstCategorie,
         ]);
     }
 
