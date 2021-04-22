@@ -55,7 +55,7 @@ class EmpruntRepository extends ServiceEntityRepository
 
         
         $listeReservation = $this->getEntityManager()
-        ->createQuery(" SELECT e.id, e.qteActuelle, e.dateRetourPrevue, ee.nom AS Etat, CONCAT(u.prenom,' ',u.nom) AS Etudiant, p.nom AS Pieces from App\Entity\Emprunt e
+        ->createQuery(" SELECT e.id, e.qteActuelle, e.dateRetourPrevue, ee.nom AS Etat, ee.id AS idEtat, CONCAT(u.prenom,' ',u.nom) AS Etudiant, p.nom AS Pieces from App\Entity\Emprunt e
         JOIN App\Entity\EtatEmprunt ee WITH e.idEtat = ee.id
         JOIN App\Entity\Utilisateur u WITH  e.idUtilisateur = u.id
         JOIN App\Entity\Piece p WITH e.idPiece = p.id

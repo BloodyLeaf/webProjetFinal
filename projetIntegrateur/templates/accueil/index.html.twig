@@ -15,6 +15,14 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+
+        <!-- Message d'Erreur  -->
+        <div id="errorMessageDisplayReturn" class="displayNone">
+            <div class="d-flex justify-content-center m-5 alert alert-danger">   
+                <span id="errorMessageReturn"> </span> 
+            </div>
+        </div>
+
         <form>
         <!-- first row -->
         <div class="row">
@@ -65,12 +73,12 @@
         <!-- third row -->
         <div class="row">
             <div id="QTEBriseDisplay" class="col displayNone">
-            <label for="QTEBrise">Quantité brisé</label>
+            <label for="QTEBrise">Quantité brisée</label>
             <input type="text" id="QTEBrise" >
             </div>
 
             <div id="QTEPerduDisplay" class="col displayNone">
-            <label for="QTEPerdu">Quantité perdu</label>
+            <label for="QTEPerdu">Quantité perdue</label>
             <input type="text"   id="QTEPerdu" >
             </div>
 
@@ -101,6 +109,36 @@
 <br>
 
 
+<!-- Message de réussite  -->
+<div id="successMessageDisplay" class="displayNone">
+    <div class="d-flex justify-content-center m-5 alert alert-success">   
+        <span id="successMessage"> </span> 
+    </div>
+</div>
+
+<!-- Message d'Erreur  -->
+<div id="errorMessageDisplay" class="displayNone">
+    <div class="d-flex justify-content-center m-5 alert alert-danger">   
+        <span id="errorMessage"> </span> 
+    </div>
+</div>
+
+
+<!-- Filtre pour le table rerservation -->
+<label for="filterEmprunt">Filtrer : </label>
+<select name="filterEmprunt" id="filterEmprunt">
+    <option value=""></option>
+    {% for etat in etats %}
+        {% if etat.nom != "Terminer" %}
+            <option value="{{etat.id}}">{{etat.nom}} 
+            </option>
+        {% endif %}
+    {% endfor %}
+</select>
+
+<br>
+<br>
+
 
 
 <table id="reservation" class="display responsive compact nowrap" style="width:95%">
@@ -112,6 +150,7 @@
             <th >Date de retour</th>
             <th >État</th>
             <th >Retourner</th>
+            <th >EtatId</th>
             
         </tr>
     </thead>
@@ -133,6 +172,7 @@
                     </select>
                 </td>
                 <td> <button type="button" data-rowNb="{{row}}" data-idreservation="{{reservation['id']}}" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modalRetour" onclick="retourPieceForm(this)"> Retourner </button> </td>
+                <td>   {{reservation['idEtat']}}  </td>
          </tr>
          {% set row = row + 1 %}
         {% endfor %}
@@ -145,6 +185,7 @@
             <th >Date de retour</th>
             <th >État</th>
             <th >Retourner</th>
+            <th >EtatId</th>
             </tr>
         </tfoot>
 </table>

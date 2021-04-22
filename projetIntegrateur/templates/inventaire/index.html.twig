@@ -9,7 +9,32 @@
 <br>
 <br>
 
+<!-- Message de réussite  -->
+<div id="successMessageDisplay" class="displayNone">
+    <div class="d-flex justify-content-center m-5 alert alert-success">   
+        <span id="successMessage"> </span> 
+    </div>
+</div>
 
+<!-- Message d'Erreur  -->
+<div id="errorMessageDisplay" class="displayNone">
+    <div class="d-flex justify-content-center m-5 alert alert-danger">   
+        <span id="errorMessage"> </span> 
+    </div>
+</div>
+
+<!-- Filtre pour le table inventaire -->
+<label for="filterCategorie">Filtrer : </label>
+<select name="filterCategorie" id="filterCategorie">
+    <option value=""></option>
+     {% for categorie in categories %}
+    <p>  </p>
+    <option value="{{categorie.nom}}">{{categorie.nom}}</option>
+    {% endfor %}
+</select>
+
+<br>
+<br>
 
 <table id="inventaire" class="display responsive compact nowrap" style="width:95%">
     <thead>
