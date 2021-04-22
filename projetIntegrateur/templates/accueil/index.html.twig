@@ -27,7 +27,7 @@
             <input type="text" class="form-control" id="QTEEmprunter" disabled>
             </div>
             <div class="col">
-            <label for="nomEtudiant">Pièce</label>
+            <label for="piece">Pièce</label>
             <input type="text" class="form-control" id="piece" disabled>
             </div>
         </div>
@@ -55,19 +55,39 @@
                 </label>
                 </div>
             </div>
-
-
+            
             <div class="col">
             <textarea class="displayNone" id="descriptionPieceBrise"  rows="4" cols="50" placeholder="description..."></textarea>
             </div>
 
         </div>
+
+        <!-- third row -->
+        <div class="row">
+            <div id="QTEBriseDisplay" class="col displayNone">
+            <label for="QTEBrise">Quantité brisé</label>
+            <input type="text" id="QTEBrise" >
+            </div>
+
+            <div id="QTEPerduDisplay" class="col displayNone">
+            <label for="QTEPerdu">Quantité perdu</label>
+            <input type="text"   id="QTEPerdu" >
+            </div>
+
+            <div class="col">
+            </div>
+            
+        
+
+        </div>
+
+        <input type="hidden" id="reservationID">
         </form>
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="reset()">Annuler</button>
-        <button type="button" class="btn btn-primary">Confirmer le retour</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Annuler</button>
+        <button type="button" class="btn btn-primary" onclick="traitementRetourPiece()">Confirmer le retour</button>
       </div>
     </div>
   </div>
@@ -101,16 +121,18 @@
         <tr> 
                 <td> {{ reservation['Etudiant'] }}</td>
                 <td> {{ reservation['Pieces'] }}</td>
-                <td> {{ reservation['Qte'] }}</td>
+                <td> {{ reservation['qteActuelle'] }}</td>
                 <td> {{ reservation['dateRetourPrevue'] | date('Y-m-d') }}</td>
                 <td> <select name="etat" onchange="modifierEtat({{reservation['id']}}, this)">
                         {% for etat in etats %}
+                            {% if etat.nom != "Terminer" %}
                                 <option value="{{etat.id}}" {% if reservation['Etat'] == etat.nom %} selected {% endif %}>{{etat.nom}} 
                                 </option>
+                            {% endif %}
                         {% endfor %}
                     </select>
                 </td>
-                <td> <button type="button" data-rowNb="{{row}}" data-idreservation="{{reservation['id']}}" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modalRetour" onclick="retourPiece(this)"> Retourner </button> </td>
+                <td> <button type="button" data-rowNb="{{row}}" data-idreservation="{{reservation['id']}}" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modalRetour" onclick="retourPieceForm(this)"> Retourner </button> </td>
          </tr>
          {% set row = row + 1 %}
         {% endfor %}
