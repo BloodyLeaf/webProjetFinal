@@ -21,7 +21,7 @@ class ApiMobileController extends AbstractController
     }
 
     /**
-     * @Route("/api/mobile/{id}", name="api_piece", methods={"GET"})
+     * @Route("/api-mobile/{id}", name="api_piece", methods={"GET"})
      */
     public function getPiece($id): JsonResponse
     {
@@ -32,9 +32,10 @@ class ApiMobileController extends AbstractController
 
         return new JsonResponse($pieceArray, Response::HTTP_OK);
     }
+  
 
     /**
-     * @Route("/api/mobile/list", name="api_piece_listeDisponible", methods={"GET"})
+     * @Route("/api-mobile-list", name="api_piece_listeDisponible", methods={"GET"})
      */
     public function getAvailableListPieces(): JsonResponse
     {
@@ -48,19 +49,17 @@ class ApiMobileController extends AbstractController
                 $pieceDesc = $piece->toArrayInventory();
                 array_push($pieceArray,$pieceDesc);
             //}
-        }
-        
+        }     
 
         return new JsonResponse($pieceArray, Response::HTTP_OK);
     }
-
-    /**
+/**
      * @Route("/api/mobile/empruntstate/{id}", name="api_piece_stateEmprunt", methods={"GET"})
      */
     public function getComandState($id): JsonResponse
     {
         //j'ai besoin d'un premier utilisateur mais je vais attendre que l'interface d'inscription sois fait pour éviter des probleme 
-        // d'un mauvais insert 
+        // d'un mauvais insert va etre refais selon le update de sam
         $em = $this->getDoctrine()->getManager();
         $empruntRepository = $em->getRepository(Emprunt::class);
         $emprunt = $empruntRepository->find($id);
@@ -68,5 +67,8 @@ class ApiMobileController extends AbstractController
 
         return new JsonResponse($pieceArray, Response::HTTP_OK);
     }
+
+  
+    
     
 }
