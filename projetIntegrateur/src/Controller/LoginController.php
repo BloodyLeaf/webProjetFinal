@@ -50,7 +50,7 @@ class LoginController extends AbstractController
 
         $form = $this->createForm(ChangePasswordFormType::class);
 
-        $form->add('ajouter', SubmitType::class, ['label' => 'confirmer']);
+        $form->add('confirmer', SubmitType::class, ['label' => 'confirmer']);
 
         $form->handleRequest($request);
 
@@ -68,7 +68,7 @@ class LoginController extends AbstractController
             $em->persist($user);
             $em->flush();
 
-            return $this->redirect($this->generateUrl(''));
+            return $this->redirectToRoute('accueil');
         }
 
         return $this->render('security/changePassword.html.twig', ['form' => $form->createView()]);

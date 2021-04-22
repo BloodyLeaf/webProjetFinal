@@ -20,14 +20,25 @@
         <div class="alert alert-danger" role="alert">{{ flashError }}</div>
     {% endfor %}
 
-    <h1>Ajouter un utilisateur</h1>
-
+    
+    <div class="center-screen">
+    <div class="form-login">
+    <h1 class="titleFormUtilisateur">{{title}}</h1>
+    {% for flashError in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+    {% endfor %}
     {{ form_start(utilisateurForm) }}
-        {{ form_row(utilisateurForm.email) }}
-        {{ form_row(utilisateurForm.nom) }}
-        {{ form_row(utilisateurForm.prenom) }}
-        {{ form_row(utilisateurForm.roles) }}
+        {{ form_widget(utilisateurForm.email, {'attr': {'placeholder': 'Courriel'}}) }}
+        {{ form_widget(utilisateurForm.prenom, {'attr': {'placeholder': 'Prénom'}}) }}
+        {{ form_widget(utilisateurForm.nom, {'attr': {'placeholder': 'Nom'}}) }}
+        {{ form_widget(utilisateurForm.noGroupe, {'attr': {'placeholder': 'Numéro de Groupe (facultatif)'}}) }}
+        <label>Rôle de l'utilisateur</label>
+        {{ form_widget(utilisateurForm.roles) }}
+        <label>Status de l'utilisateur</label>
+        {{ form_widget(utilisateurForm.etat, {'attr': {'class': 'displayNone'}}) }}
     {{ form_end(utilisateurForm) }}
+    </div>
+    </div>
 
 {% endblock %}
 

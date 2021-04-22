@@ -29,9 +29,9 @@ $(document).ready( function () {
       "language": {
           "lengthMenu": "Afficher _MENU_ par pages",
           "search": "Rechercher:",
-          "zeroRecords": "Aucune utilisateur trouvé",
+          "zeroRecords": "Aucun utilisateur trouvé",
           "info": "Page _PAGE_ de _PAGES_",
-          "infoEmpty": "Aucune réservation trouvé",
+          "infoEmpty": "Aucun utilisateur trouvé",
           "infoFiltered": "(filtrer dans _MAX_ enregistrement)",
           "paginate": {
     "next": "Page suivante",

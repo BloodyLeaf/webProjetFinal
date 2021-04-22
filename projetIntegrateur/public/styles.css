@@ -1,3 +1,7 @@
+main {
+    min-height: 85vh;
+}
+
 #navItem1{
  color :white;
 }
@@ -60,5 +64,42 @@ nav li {
 .displayNone{
     display: none;
 }
+
+.center-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 75vh;
+  }
+
+.center-screen-h {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.form-login {
+    width: 50%;
+    margin: auto;
+    justify-content: center;
+}
+
+.form-login input, .form-login select, input[type="radio"]{
+    width: 25%;
+    margin: 2% auto;
+}
+
+.button-login, #change_password_form_confirmer, #utilisateur_form_ajouter, #utilisateur_form_sauvegarder {
+    width: 25%;
+    padding: 0.5% 0;
+}
+
+.titleFormUtilisateur {
+    margin: 5% 0;
+}
+
+
 
 

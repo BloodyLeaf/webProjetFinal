@@ -6,8 +6,11 @@
 
 <br>
 <br>
-<h1> Liste des utilisateurs </h1>
+<div class="center-screen-h">
+<h1>Liste des utilisateurs</h1>
 <br>
+<a href='/ajoututilisateur' type="button" class="btn btn-success">Ajouter un utilisateur</a>
+</div>
 <br>
 
 <table id="utilisateurs" class="display responsive compact nowrap" style="width:95%">
@@ -40,7 +43,7 @@
                 {% elseif utilisateur.etat == 1 %}
                     <td>actif</td>
                 {% endif %}
-                <td> <button type="button" class="btn btn-primary">Modifier</button> </td>
+                <td> <a href='/modifierutilisateur/{{utilisateur.id}}' type="button" class="btn btn-warning">Modifier</a> </td>
         </tr>
         {% set row = row + 1 %}
         {% endfor %}

@@ -21,11 +21,17 @@ class UtilisateurFormType extends AbstractType
             ->add('email', TextType::class, array('label' => 'Courriel :'))
             ->add('nom', TextType::class, array('label' => 'Nom :'))
             ->add('prenom', TextType::class, array('label' => 'Prenom :'))
-            ->add('roles', ChoiceType::class, [
-                'label' => 'Rôle :',
-                'choices' => ['ROLE_USER' => 'ROLE_USER', 'ROLE_ADMIN' => 'ROLE_ADMIN'], 'multiple' => true,
-                'required' => true
-            ])
+            ->add('noGroupe', TextType::class, array('label' => 'Numéro de groupe :'))
+            ->add('roles',ChoiceType::class,
+                array('choices' => array(
+                'Admin' => 'ROLE_ADMIN',
+                'User' => 'ROLE_USER'),
+                'multiple'=>true))
+            ->add('etat',ChoiceType::class,
+                array('choices' => array(
+                'Actif' => '1',
+                'Inactif' => '0'),
+                'multiple'=>false))
         ;
     }
 

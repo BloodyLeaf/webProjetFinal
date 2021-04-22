@@ -45,6 +45,7 @@ class UtilisateurController extends AbstractController
             $user->setPrenom($form->get('prenom')->getData());
             $user->setRoles($form->get('roles')->getData());
             $user->setEtat(false);
+            $user->setNoGroupe(0);
             $user->setPasswordReset(true);
             $user->setConditionUtilisation(false);
             $user->setPassword(
@@ -72,11 +73,13 @@ class UtilisateurController extends AbstractController
                     );
             $mailer->send($message);
 
-            return $this->redirect($this->generateUrl('ajouter_utilisateur'));
+            return $this->redirect($this->generateUrl('liste_utilisateurs'));
         }
 
         return $this->render('utilisateur/utilisateurForm.html.twig', [
             'utilisateurForm' => $form->createView(),
+            'title' => 'Ajouter un utilisateur',
+            'type' => 'ajout',
         ]);
     }
 
@@ -103,6 +106,8 @@ class UtilisateurController extends AbstractController
         }
         return $this->render('utilisateur/utilisateurForm.html.twig', [
             'utilisateurForm' => $form->createView(),
+            'title' => 'Modifier un utilisateur',
+            'type' => 'modifier',
             ]);
     }
 }

@@ -3,7 +3,13 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-<form method="post">
+
+<div class="center-screen">
+
+<form class="form-login" method="post">
+
+    <h1 class="h3 mb-3 font-weight-normal">Bienvenue sur le site d'emprunt du département d'informatique!</h1>
+    <h2 class="h3 mb-3 font-weight-normal">Connectez-vous pour accéder au site</h2>
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
@@ -13,12 +19,8 @@
             You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
         </div>
     {% endif %}
-
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" required>
+    <input type="email" placeholder="Courriel" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
+    <input type="password" placeholder="Mot de passe" name="password" id="inputPassword" class="form-control" required>
 
     <input type="hidden" name="_csrf_token"
            value="{{ csrf_token('authenticate') }}"
@@ -33,10 +35,14 @@
                 <input type="checkbox" name="_remember_me"> Remember me
             </label>
         </div>
-    #}
+        #}
+    
 
-    <button class="btn btn-lg btn-primary" type="submit">
+    <button class="btn btn-lg btn-primary button-login" type="submit">
         Sign in
     </button>
 </form>
+
+</div>
+
 {% endblock %}

@@ -16,18 +16,17 @@
           <a id="navItem3" class="nav-link" href="#">Ajouter une pièce</a>
         </li>
          <li class="nav-item">
-          <a id="navItem4" class="nav-link" href="#">Ajouter étudiant</a>
-        </li>
+          <a id="navItem4" class="nav-link" href="utilisateurs">Gestion des utilisateurs</a>
         </li>
          <li class="nav-item">
-          <a id="navItem5" class="nav-link" href="#">Modifier un étudiant</a>
-        </li>
-         </li>
-         <li class="nav-item">
-          <a id="navItem6" class="nav-link" href="#">Rapport</a>
+          <a id="navItem5" class="nav-link" href="#">Rapport</a>
         </li>
           <li class="nav-item">
-          <a id="navItem7" class="nav-link" href="#">Se déconnecter</a>
+          {% if app.user %}
+            <a id="navItem6" class="nav-link" href="/logout">Se déconnecter</a>
+          {% else %}
+            <a id="navItem6" class="nav-link" href="/login">Se Connecter</a>
+          {% endif %}
         </li>
       </ul>
     </div>
