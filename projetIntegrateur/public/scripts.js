@@ -3,7 +3,7 @@ var tableReservation
 
 $(document).ready( function () {
 
-  let tableInventaire =  $('#inventaire').DataTable({
+  tableInventaire =  $('#inventaire').DataTable({
 
         "language": {
             "lengthMenu": "Afficher _MENU_ par pages",
@@ -24,14 +24,12 @@ $(document).ready( function () {
     
     });
 
-
-
-    tableReservation =  $('#reservation').DataTable({
+    tableUtilisateurs =  $('#utilisateurs').DataTable({
 
       "language": {
           "lengthMenu": "Afficher _MENU_ par pages",
           "search": "Rechercher:",
-          "zeroRecords": "Aucune réservation trouvées",
+          "zeroRecords": "Aucune utilisateur trouvé",
           "info": "Page _PAGE_ de _PAGES_",
           "infoEmpty": "Aucune réservation trouvé",
           "infoFiltered": "(filtrer dans _MAX_ enregistrement)",
@@ -46,6 +44,29 @@ $(document).ready( function () {
 
   
   });
+
+  tableReservation =  $('#reservation').DataTable({
+
+    "language": {
+        "lengthMenu": "Afficher _MENU_ par pages",
+        "search": "Rechercher:",
+        "zeroRecords": "Aucune réservation trouvée",
+        "info": "Page _PAGE_ de _PAGES_",
+        "infoEmpty": "Aucune pièce dans l'inventaire",
+        "infoFiltered": "(filtrer dans _MAX_ enregistrement)",
+        "paginate": {
+  "next": "Page suivante",
+  "previous": "page précédente"
+  
+}
+    },
+
+    responsive: true,
+
+
+});
+    
+  
 
 
 
