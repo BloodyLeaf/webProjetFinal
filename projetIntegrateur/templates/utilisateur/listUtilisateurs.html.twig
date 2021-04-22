@@ -3,35 +3,46 @@
 {% block title %}Utilisateurs{% endblock %}
 
 {% block body %}
+
 <br>
 <br>
 <h1> Liste des utilisateurs </h1>
 <br>
 <br>
 
-
-
 <table id="utilisateurs" class="display responsive compact nowrap" style="width:95%">
     <thead>
         <tr>
             <th>Prenom</th>
             <th>Nom</th>
-            <th>Email</th>
+            <th>Courriel</th>
+            <th>Numéro de groupe</th>
+            <th>Rôle</th>
+            <th>Etat</th>
             <th>Modifer</th>
-            <th>Supprimer</th>
         </tr>
     </thead>
     <tbody>
+        {% set row = 0 %}
         {% for utilisateur in utilisateurs %}
-        {#% set ref = "piece/" ~ piece[0].id %#}
-         <tr> 
+        <tr> 
                 <td> {{ utilisateur.prenom }}</td>
                 <td> {{ utilisateur.nom }}</td>
                 <td> {{ utilisateur.email }}</td>
-                <td> {{ utilisateur.etat }}</td>
-                <td> <a class="btn btn-primary" href="modifierutilisateur/{{utilisateur.id}}" role="button">Modifer</a> </td>
-                <td> <a class="btn btn-danger" href="#" role="button">Supprimer</a> </td>
-            </tr>
+                {% if utilisateur.noGroupe == 0 %}
+                    <td></td>
+                {% else %}
+                    <td> {{ utilisateur.noGroupe }}</td>
+                {% endif %}
+                <td> {{ utilisateur.roles[0] }}</td>
+                {% if utilisateur.etat == 0 %}
+                    <td>inactif</td>
+                {% elseif utilisateur.etat == 1 %}
+                    <td>actif</td>
+                {% endif %}
+                <td> <button type="button" class="btn btn-primary">Modifier</button> </td>
+        </tr>
+        {% set row = row + 1 %}
         {% endfor %}
     </tbody>
 </table>

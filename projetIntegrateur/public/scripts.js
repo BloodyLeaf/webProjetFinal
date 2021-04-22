@@ -3,7 +3,7 @@ var tableReservation
 
 $(document).ready( function () {
 
-  let tableInventaire =  $('#inventaire').DataTable({
+  tableInventaire =  $('#inventaire').DataTable({
 
         "language": {
             "lengthMenu": "Afficher _MENU_ par pages",
@@ -24,7 +24,7 @@ $(document).ready( function () {
     
     });
 
-    let tableUtilisateurs =  $('#utilisateurs').DataTable({
+    tableUtilisateurs =  $('#utilisateurs').DataTable({
 
       "language": {
           "lengthMenu": "Afficher _MENU_ par pages",
@@ -177,6 +177,7 @@ function reset(){
   document.getElementById("QTERetourner").value = ""
   document.getElementById("descriptionPieceBrise").style.display = "none"
 }
+
 
 
 
