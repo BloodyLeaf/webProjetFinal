@@ -22,7 +22,7 @@ class Emprunt
     /**
      * @ORM\Column(type="integer")
      */
-    private $Qte;
+    private $QteInitiale;
 
     /**
      * @ORM\Column(type="date")
@@ -58,12 +58,23 @@ class Emprunt
      */
     private $idEtat;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $qteActuelle;
+
+    /**
+     * @ORM\OneToMany(targetEntity=IncidentEmprunt::class, mappedBy="idEmprunt")
+     */
+    private $incidentEmprunts;
 
 
+    
 
     public function __construct()
     {
         $this->cycleVieEmprunts = new ArrayCollection();
+        $this->incidentEmprunts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -71,14 +82,14 @@ class Emprunt
         return $this->id;
     }
 
-    public function getQte(): ?int
+    public function getQteInitiale(): ?int
     {
-        return $this->Qte;
+        return $this->QteInitiale;
     }
 
-    public function setQte(int $Qte): self
+    public function setQteInitiale(int $QteInitiale): self
     {
-        $this->Qte = $Qte;
+        $this->QteInitiale = $QteInitiale;
 
         return $this;
     }
@@ -151,6 +162,48 @@ class Emprunt
     public function setIdEtat(?EtatEmprunt $idEtat): self
     {
         $this->idEtat = $idEtat;
+
+        return $this;
+    }
+
+    public function getQteActuelle(): ?int
+    {
+        return $this->qteActuelle;
+    }
+
+    public function setQteActuelle(int $qteActuelle): self
+    {
+        $this->qteActuelle = $qteActuelle;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|IncidentEmprunt[]
+     */
+    public function getIncidentEmprunts(): Collection
+    {
+        return $this->incidentEmprunts;
+    }
+
+    public function addIncidentEmprunt(IncidentEmprunt $incidentEmprunt): self
+    {
+        if (!$this->incidentEmprunts->contains($incidentEmprunt)) {
+            $this->incidentEmprunts[] = $incidentEmprunt;
+            $incidentEmprunt->setIdEmprunt($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIncidentEmprunt(IncidentEmprunt $incidentEmprunt): self
+    {
+        if ($this->incidentEmprunts->removeElement($incidentEmprunt)) {
+            // set the owning side to null (unless already changed)
+            if ($incidentEmprunt->getIdEmprunt() === $this) {
+                $incidentEmprunt->setIdEmprunt(null);
+            }
+        }
 
         return $this;
     }

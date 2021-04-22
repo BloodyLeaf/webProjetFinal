@@ -30,13 +30,19 @@ class InventaireController extends AbstractController
     public function changeQTETotal(Request $r): Response
     {
         $info = $r->request->all();
+        $response = new Response();
+
+        if(!preg_match('/^0*[0-9]\d*$/',$info['qte'])){
+            $response->setContent("fail");
+            return $response;
+        }
+
 
         $em = $this->getDoctrine()->getManager();
         $piece = $em->getRepository(piece::class)->findOneBy(['id' => $info['id']]);
         $piece->setQteTotal($info['qte']);
         $em->flush();
-        
-        return new Response();
+        return $response;
     }
 
 }

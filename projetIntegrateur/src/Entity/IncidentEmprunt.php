@@ -23,16 +23,15 @@ class IncidentEmprunt
     private $description;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="integer")
      */
-    private $Qte;
+    private $qte;
 
     /**
-     * @ORM\OneToOne(targetEntity=Emprunt::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Emprunt::class, inversedBy="incidentEmprunts")
      * @ORM\JoinColumn(nullable=false)
      */
     private $idEmprunt;
-
 
     public function getId(): ?int
     {
@@ -53,12 +52,12 @@ class IncidentEmprunt
 
     public function getQte(): ?int
     {
-        return $this->Qte;
+        return $this->qte;
     }
 
-    public function setQte(int $Qte): self
+    public function setQte(int $qte): self
     {
-        $this->Qte = $Qte;
+        $this->qte = $qte;
 
         return $this;
     }
@@ -68,13 +67,10 @@ class IncidentEmprunt
         return $this->idEmprunt;
     }
 
-    public function setIdEmprunt(Emprunt $idEmprunt): self
+    public function setIdEmprunt(?Emprunt $idEmprunt): self
     {
         $this->idEmprunt = $idEmprunt;
 
         return $this;
     }
-
-
-
 }
