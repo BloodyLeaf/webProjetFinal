@@ -73,8 +73,15 @@ class UtilisateurController extends AbstractController
                     );
             $mailer->send($message);
 
+            $session = $request->getSession();
+            $session->getFlashBag()->add('ajout', 'utilisateur ajouté avec succès!');
+
             return $this->redirect($this->generateUrl('liste_utilisateurs'));
         }
+
+        /*return $this->render('registration/register.html.twig', [
+            'registrationForm' => $form->createView(),
+        ]);*/
 
         return $this->render('utilisateur/utilisateurForm.html.twig', [
             'utilisateurForm' => $form->createView(),
@@ -101,6 +108,9 @@ class UtilisateurController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($utilisateur);
             $em->flush();
+
+            $session = $request->getSession();
+            $session->getFlashBag()->add('modification', 'utilisateur modifié avec succès!');
 
             return $this->redirect($this->generateUrl('liste_utilisateurs'));
         }

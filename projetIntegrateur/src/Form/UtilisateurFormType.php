@@ -18,20 +18,22 @@ class UtilisateurFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email', TextType::class, array('label' => 'Courriel :'))
-            ->add('nom', TextType::class, array('label' => 'Nom :'))
-            ->add('prenom', TextType::class, array('label' => 'Prenom :'))
-            ->add('noGroupe', TextType::class, array('label' => 'Numéro de groupe :'))
+            ->add('email', TextType::class, ['label' => false])
+            ->add('nom', TextType::class, ['label' => false])
+            ->add('prenom', TextType::class, ['label' => false])
+            ->add('noGroupe', TextType::class, ['label' => false])
             ->add('roles',ChoiceType::class,
                 array('choices' => array(
                 'Admin' => 'ROLE_ADMIN',
                 'User' => 'ROLE_USER'),
-                'multiple'=>true))
+                'multiple'=>true,
+                 'label' => false))
             ->add('etat',ChoiceType::class,
                 array('choices' => array(
                 'Actif' => '1',
                 'Inactif' => '0'),
-                'multiple'=>false))
+                'multiple'=>false
+                , 'label' => false))
         ;
     }
 

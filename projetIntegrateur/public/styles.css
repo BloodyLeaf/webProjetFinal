@@ -87,12 +87,12 @@ nav li {
 }
 
 .form-login input, .form-login select, input[type="radio"]{
-    width: 25%;
+    width: 30%;
     margin: 2% auto;
 }
 
 .button-login, #change_password_form_confirmer, #utilisateur_form_ajouter, #utilisateur_form_sauvegarder {
-    width: 25%;
+    width: 30%;
     padding: 0.5% 0;
 }
 
@@ -101,10 +101,18 @@ nav li {
 }
 
 
-
-
 #container{
     width: 95%;
     margin: 0 auto;
+}
+
+.form-error-message {
+    justify-content: center;
+    text-align: center;
+    margin-right: 5.75%;
+}
+
+.popup {
+    width: 35%;
 }
 
