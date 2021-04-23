@@ -140,7 +140,7 @@ class InventaireController extends AbstractController
      * @Route("/delete/{idpiece}",
      *    defaults={"idpiece" = 0},
      *    name="delete_piece")
-     */
+     */ 
     public function deletePiece(Request $request, $idpiece): Response
     {
         //TODO: trouver comment identifier le produit à partir du bouton
