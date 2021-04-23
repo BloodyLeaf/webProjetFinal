@@ -68,5 +68,30 @@ class ApiMobileController extends AbstractController
 
         return new JsonResponse($pieceArray, Response::HTTP_OK);
     }
+
+    /**
+     * @Route("/api/mobile/authenticate", name="api_piece_stateEmprunt", methods={"GET"})
+     */
+    public function authenticateUtilisateur(Request $request, UserInterface $user): JsonResponse
+    {
+        $Authenticator = new AuthentificateurAuthenticator();
+
+        $content = $request->getContent();
+
+        if(empty($content)){
+            throw new BadRequestHttpException("Content is empty");
+        }
+    
+        if(!Validator::isValidJsonString($content)){
+            throw new BadRequestHttpException("Content is not a valid json");
+        }
+
+        $credentials = $Authenticator->getCredentials($request);
+        $result = $Authenticator->checkCredentials($credentials, $user);
+
+        return new JsonResponse($result, Response::HTTP_OK);
+    }
+
+
     
 }
