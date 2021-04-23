@@ -101,9 +101,13 @@ class InventaireController extends AbstractController
         $form->add('ajouter', submitType::class, array('label'=>'Ajouter'));
         $form->handleRequest($request);
 
+        $piece = $this->getDoctrine()
+            ->getRepository(Piece::class)
+            ->find($id);
+
         if( $request->isMethod('post') && $form->isValid())
         {
-            $default = 0;
+            //Trouver comment preload les data
             $infoPiece = $form->getData();
 
             $piece->setNom($form->get('nom')->getData());
@@ -125,6 +129,18 @@ class InventaireController extends AbstractController
         return $this->render('inventaire/ModifyPiece.html.twig', [
             'modifyPieceForm' => $form->createView(),
         ]);
+
+    }
+            /**
+     * @Route("/delete", name="delete_piece")
+     */
+    public function deletePiece(Request $request): Response
+    {
+        //TODO: trouver comment identifier le produit à partir du bouton
+        $entityManager->remove($piece);
+        $entityManager->flush();
+
+        return $this->redirect($this->generateUrl('inventaire'));
 
     }
 }
