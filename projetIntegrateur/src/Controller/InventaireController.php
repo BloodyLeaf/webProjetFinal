@@ -4,10 +4,14 @@ namespace App\Controller;
 
 use App\Entity\Categorie;
 use App\Entity\Piece;
+use App\Form\AddPieceType;
+use App\Form\ModifyPieceType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 
 class InventaireController extends AbstractController
 {
@@ -50,5 +54,77 @@ class InventaireController extends AbstractController
         $em->flush();
         return $response;
     }
+        /**
+     * @Route("/add", name="add_piece")
+     */
+    public function addPiece(Request $request): Response
+    {
+        $piece = new Piece();
+        $form = $this->createForm(AddPieceType::class, $piece);
 
+        $form->add('ajouter', submitType::class, array('label'=>'Ajouter'));
+        $form->handleRequest($request);
+
+        if( $request->isMethod('post') && $form->isValid())
+        {
+            $default = 0;
+            $infoPiece = $form->getData();
+
+            $piece->setNom($form->get('nom')->getData());
+            $piece->setDescription($form->get('description')->getData());
+            $piece->setQteTotal($form->get('QteTotal')->getData());
+            $piece->setIdCategorie($form->get('idCategorie')->getData());
+
+            $piece->setQteEmprunter($default);
+            $piece->setQteBrise($default);
+            $piece->setQtePerdu($default);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($piece);
+            $entityManager->flush();
+    
+            return $this->redirect($this->generateUrl('inventaire'));
+        }
+        return $this->render('inventaire/addPiece.html.twig', [
+            'addPieceForm' => $form->createView(),
+        ]);
+
+    }
+            /**
+     * @Route("/modify", name="modify_piece")
+     */
+    public function modifyPiece(Request $request): Response
+    {
+        $piece = new Piece();
+        $form = $this->createForm(ModifyPieceType::class, $piece);
+
+        $form->add('ajouter', submitType::class, array('label'=>'Ajouter'));
+        $form->handleRequest($request);
+
+        if( $request->isMethod('post') && $form->isValid())
+        {
+            $default = 0;
+            $infoPiece = $form->getData();
+
+            $piece->setNom($form->get('nom')->getData());
+            $piece->setDescription($form->get('description')->getData());
+            $piece->setQteTotal($form->get('QteTotal')->getData());
+            $piece->setQteEmprunter($form->get('QteEmprunter')->getData());
+            $piece->setQteBrise($form->get('QteBrise')->getData());
+            $piece->setQtePerdu($form->get('QtePerdu')->getData());
+            $piece->setIdCategorie($form->get('idCategorie')->getData());
+
+
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($piece);
+            $entityManager->flush();
+    
+            return $this->redirect($this->generateUrl('inventaire'));
+        }
+        return $this->render('inventaire/ModifyPiece.html.twig', [
+            'modifyPieceForm' => $form->createView(),
+        ]);
+
+    }
 }
