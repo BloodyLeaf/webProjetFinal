@@ -207,4 +207,12 @@ class Emprunt
 
         return $this;
     }
+
+    public function jetatEmprunt(){
+        return [
+            'id' => $this->getId(),
+            'state' => $this->getIdEtat()
+        ];
+    }
+
 }
