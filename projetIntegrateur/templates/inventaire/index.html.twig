@@ -69,8 +69,8 @@
                 <td>{{ piece[0].QtePerdu }}</td>
                 <td> {{ piece[0].QteTotal }}</td>
                 <td> <a href="#2"> Voir l'image </td>
-                <td> <a class="btn btn-primary"href="{{ path('modify', {'variable' : piece}) }}", role="button">Modifer</a> </td>
-                <td> <a class="btn btn-danger" href="#" role="button">Supprimer</a> </td>
+                <td> <a class="btn btn-primary"href="/modify/{piece}", role="button">Modifer</a> </td>
+                <td> <a class="btn btn-danger" href="/delete/{piece}" role="button">Supprimer</a> </td>
             </tr>
         {% endfor %}
     </tbody>
