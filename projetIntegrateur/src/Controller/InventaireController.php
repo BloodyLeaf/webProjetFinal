@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-
 class InventaireController extends AbstractController
 {
     /**
@@ -91,9 +90,12 @@ class InventaireController extends AbstractController
 
     }
             /**
-     * @Route("/modify", name="modify_piece")
+     * @Route("/modify/{idpiece}",
+     *    defaults={"idpiece" = 0},
+     *    methods={"GET"}),
+     *    name="modify_piece")
      */
-    public function modifyPiece(Request $request): Response
+    public function modifyPiece($id): Response
     {
         $piece = new Piece();
         $form = $this->createForm(ModifyPieceType::class, $piece);
