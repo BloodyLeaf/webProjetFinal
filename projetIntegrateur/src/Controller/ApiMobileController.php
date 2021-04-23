@@ -99,7 +99,7 @@ class ApiMobileController extends AbstractController
     }
 
     /**
-     * @Route("/api/mobile/authenticate", name="api_piece_stateEmprunt", methods={"GET"})
+     * @Route("/api-mobile/authenticate", name="api_piece_stateEmprunt", methods={"GET"})
      */
     public function authenticateUtilisateur(Request $request, UserInterface $user): JsonResponse
     {
