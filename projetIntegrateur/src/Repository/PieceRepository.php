@@ -60,10 +60,12 @@ class PieceRepository extends ServiceEntityRepository
 
         return $listeProduit;
     }
-    public function updateQtt($id,$qtt){
+    public function updateQte($id,$qtt){
 
 
         $this->getEntityManager()
-        ->createQuery("UPDATE App\Entity\Piece p SET p.qte_emprunter = $qtt WHERE e.id = $id")->execute();
+        ->createQuery("UPDATE App\Entity\Piece p SET p.QteEmprunter = $qtt WHERE p.id = $id")->execute();
     }
+
+    
 }

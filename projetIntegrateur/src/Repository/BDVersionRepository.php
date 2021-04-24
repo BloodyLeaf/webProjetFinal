@@ -47,4 +47,13 @@ class BDVersionRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function getLatestBDVersion(){
+        $bdVersionID = $this->getEntityManager()
+        ->createQuery("SELECT b.id FROM App\Entity\BDVersion b ORDER BY b.timestamp DESC ")->setMaxResults(1)
+        ->getArrayResult();
+       
+        return $bdVersionID;
+        
+    }
+    
 }

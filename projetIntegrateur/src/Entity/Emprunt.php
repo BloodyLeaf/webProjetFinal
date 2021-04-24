@@ -208,10 +208,11 @@ class Emprunt
         return $this;
     }
 
-    public function jetatEmprunt(){
+    public function jetatEmprunt($idState,$nomState){
         return [
             'id' => $this->getId(),
-            'state' => $this->getIdEtat()
+            'idState' => $idState,
+            'nomState' => $nomState
         ];
     }
 
