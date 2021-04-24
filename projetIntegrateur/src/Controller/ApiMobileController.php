@@ -2,12 +2,17 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\Piece;
 use App\Entity\Emprunt;
+use App\Entity\Utilisateur;
+use Symfony\Bundle\MakerBundle\Validator;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use App\Security\AuthentificateurAuthenticator;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class ApiMobileController extends AbstractController
 {
@@ -100,26 +105,38 @@ class ApiMobileController extends AbstractController
     }
 
     /**
-     * @Route("/api-mobile/authenticate", name="api_piece_stateEmprunt", methods={"GET"})
+     * @Route("/api-mobile-authenticate", name="api_piece_stateEmprunt", methods={"GET"})
      */
-    public function authenticateUtilisateur(Request $request, UserInterface $user): JsonResponse
+    public function authenticateUtilisateur(Request $request, UserPasswordEncoderInterface $passwordEncoder): JsonResponse
     {
-        $Authenticator = new AuthentificateurAuthenticator();
+        $data = $request->toArray();
 
-        $content = $request->getContent();
-
-        if(empty($content)){
-            throw new BadRequestHttpException("Content is empty");
+        $erreur = "";
+        if(empty($data)){
+            $erreur = "la requête ne possédait aucun contenu";
+            return new JsonResponse($erreur, Response::HTTP_OK);
         }
     
-        if(!Validator::isValidJsonString($content)){
-            throw new BadRequestHttpException("Content is not a valid json");
-        }
+        /*
+        if(!Validator::isValidJsonString($data)){
+            $erreur = "le contenu de la requête ne correspond au type JSON";
+            return new JsonResponse($erreur, Response::HTTP_OK);
+        }*/
 
-        $credentials = $Authenticator->getCredentials($request);
-        $result = $Authenticator->checkCredentials($credentials, $user);
+        $em = $this->getDoctrine()->getManager();
+        $utilisateurRepository = $em->getRepository(Utilisateur::class);
 
-        return new JsonResponse($result, Response::HTTP_OK);
+        $user = $utilisateurRepository->findOneBy(array('email' => $data['email']));
+
+        $passwordEntered = sha1($data['password']);
+
+        if($user->getPassword() == $passwordEntered) {
+            return new JsonResponse($user->getId(), Response::HTTP_OK);
+        } 
+
+        $result = "erreur";
+
+        return new JsonResponse($passwordEntered, Response::HTTP_OK);
     }
 
 
