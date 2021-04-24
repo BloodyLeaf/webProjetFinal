@@ -520,3 +520,19 @@ function traitementRetourPiece(){
 
 
 
+/*
+Fonction qui permet de supprimer une pièce
+*/
+
+function deleteProduct(e){
+ 
+  let id = e.dataset.idpiece
+  let nom = e.dataset.nom
+  let btn = document.getElementById("supprimerButton")
+  let message = document.getElementById("messageSupprimer");
+  btn.href = "delete/" + id
+  message.innerHTML = "Êtes-vous certain de vouloir supprimer " + nom + " ?" 
+}
+
+
+

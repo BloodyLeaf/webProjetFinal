@@ -9,6 +9,30 @@
 <br>
 <br>
 
+
+<div class="modal" id="modalSupprimer" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Supprimer</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <span id="messageSupprimer"> </span>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        <!-- <button type="button" class="btn btn-danger">Supprimer</button>-->
+        <a class="btn btn-danger" id="supprimerButton" role="button">Supprimer</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
 <!-- Message de réussite  -->
 <div id="successMessageDisplay" class="displayNone">
     <div class="d-flex justify-content-center m-5 alert alert-success">   
@@ -61,6 +85,7 @@
     <tbody>
         {% for piece in pieces %}
         {% set ref = piece[0].id %}
+        {% set nomPiece = piece[0].nom %}
          <tr> 
                 <td> {{ piece[0].nom }}</td>
                 <td> {{ piece[0].description }}</td>
@@ -70,8 +95,9 @@
                 <td>{{ piece[0].QtePerdu }}</td>
                 <td> {{ piece[0].QteBrise }}</td>
                 <td> <a href="#2"> Voir l'image </td>
-                <td> <a class="btn btn-primary"href="modify/{{ref}}", role="button">Modifer</a> </td>
-                <td> <a class="btn btn-danger" href="delete/{{ref}}" role="button">Supprimer</a> </td>
+                <td> <a class="btn btn-primary" href="modify/{{ref}}", role="button">Modifer</a> </td>
+                <!--<td> <a class="btn btn-danger"  href="delete/{{ref}}" role="button">Supprimer</a> </td>-->
+                <td> <button type="button" class="btn btn-danger" data-idPiece="{{ref}}" data-nom="{{nomPiece}}" onclick="deleteProduct(this)" data-bs-toggle="modal" data-bs-target="#modalSupprimer" >Supprimer</button> </td>
             </tr>
         {% endfor %}
     </tbody>
