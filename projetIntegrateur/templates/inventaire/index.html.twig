@@ -5,7 +5,7 @@
 {% block body %}
 <br>
 <br>
-<h1> Liste des pièces </h1>
+<h1 class="center"> Liste des pièces </h1>
 <br>
 <br>
 
@@ -41,6 +41,7 @@
 <br>
 <br>
 
+
 <table id="inventaire" class="display responsive compact nowrap" style="width:100%">
     <thead>
         <tr>
@@ -59,7 +60,7 @@
     </thead>
     <tbody>
         {% for piece in pieces %}
-        {#% set ref = "piece/" ~ piece[0].id %#}
+        {% set ref = piece[0].id %}
          <tr> 
                 <td> {{ piece[0].nom }}</td>
                 <td> {{ piece[0].description }}</td>
@@ -67,10 +68,10 @@
                 <td> <input type="text" name="QteTotal" value="{{ piece[0].QteTotal }}" onblur="changeQTE({{piece[0].id}}, this, {{piece[0].QteTotal}})" readonly="true" ondblclick="this.readOnly='';"> </td>
                 <td>{{ piece[0].QteEmprunter }}</td>
                 <td>{{ piece[0].QtePerdu }}</td>
-                <td> {{ piece[0].QteTotal }}</td>
+                <td> {{ piece[0].QteBrise }}</td>
                 <td> <a href="#2"> Voir l'image </td>
-                <td> <a class="btn btn-primary"href="/modify/{piece}", role="button">Modifer</a> </td>
-                <td> <a class="btn btn-danger" href="/delete/{piece}" role="button">Supprimer</a> </td>
+                <td> <a class="btn btn-primary"href="modify/{{ref}}", role="button">Modifer</a> </td>
+                <td> <a class="btn btn-danger" href="delete/{{ref}}" role="button">Supprimer</a> </td>
             </tr>
         {% endfor %}
     </tbody>

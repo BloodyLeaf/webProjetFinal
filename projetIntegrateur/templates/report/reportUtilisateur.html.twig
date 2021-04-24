@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Utilisateurs{% endblock %}
+
+{% block body %}
+
+<br>
+<br>
+<div class="center-screen-h">
+<h1>Rapport des utilisateurs</h1>
+<br>
+</div>
+<br>
+
+<div id="container">
+
+<table id="ReportUtilisateurs" class="display responsive compact nowrap" style="width:100%">
+    <thead>
+        <tr>
+            <th>Prenom</th>
+            <th>Nom</th>
+            <th>Courriel</th>
+            <th>Numéro de groupe</th>
+            <th>Rôle</th>
+            <th>Etat</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% set row = 0 %}
+        {% for utilisateur in utilisateurs %}
+        <tr> 
+                <td> {{ utilisateur.prenom }}</td>
+                <td> {{ utilisateur.nom }}</td>
+                <td> {{ utilisateur.email }}</td>
+                {% if utilisateur.noGroupe == 0 %}
+                    <td>aucun</td>
+                {% else %}
+                    <td> {{ utilisateur.noGroupe }}</td>
+                {% endif %}
+                <td> {{ utilisateur.roles[0] }}</td>
+                {% if utilisateur.etat == 0 %}
+                    <td>inactif</td>
+                {% elseif utilisateur.etat == 1 %}
+                    <td>actif</td>
+                {% endif %}
+        </tr>
+        {% set row = row + 1 %}
+        {% endfor %}
+    </tbody>
+</table>
+
+</div>
+
+{% endblock %}

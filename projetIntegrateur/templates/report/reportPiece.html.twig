@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inventaire{% endblock %}
+
+{% block body %}
+<br>
+<br>
+<h1 class="center"> Liste des pièces </h1>
+<br>
+<br>
+
+<div id="container">
+
+<!-- Filtre pour le table inventaire -->
+<label for="filterReportPiece">Filtrer : </label>
+<select name="filterReportPiece" id="filterReportPiece">
+    <option value=""></option>
+     {% for categorie in categories %}
+    <p>  </p>
+    <option value="{{categorie.nom}}">{{categorie.nom}}</option>
+    {% endfor %}
+</select>
+
+<br>
+<br>
+
+
+<table id="reportPiece" class="display responsive compact nowrap" style="width:100%">
+    <thead>
+        <tr>
+            <th >Nom</th>
+            <th >Description</th>
+            <th >Categorie</th>
+            <th >QTE Total</th>
+            <th >QTE Emprunter</th>
+            <th >QTE Perdu</th>
+            <th >QTE Brise</th>            
+        </tr>
+    </thead>
+    <tbody>
+        {% for piece in pieces %}
+        {% set ref = piece[0].id %}
+         <tr> 
+                <td> {{ piece[0].nom }}</td>
+                <td> {{ piece[0].description }}</td>
+                <td> {{ piece['categorie'] }}</td>
+                <td> {{ piece[0].QteTotal }} </td>
+                <td> {{ piece[0].QteEmprunter }}</td>
+                <td> {{ piece[0].QtePerdu }}</td>
+                <td> {{ piece[0].QteBrise }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+            <tr>
+            <th >Nom</th>
+            <th >Description</th>
+            <th >Categorie</th>
+            <th >QTE Total</th>
+            <th >QTE Emprunter</th>
+            <th >QTE Perdu</th>
+            <th >QTE Brise</th>
+            </tr>
+        </tfoot>
+</table>
+
+</div>
+{% endblock %}
