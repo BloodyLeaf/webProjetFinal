@@ -91,49 +91,35 @@ class InventaireController extends AbstractController
     }
     /**
      * @Route("/modify/{idpiece}",
-     *    defaults={"idpiece" = 0},
      *    name="modify_piece")
      */
     public function modifyPiece(Request $request, $idpiece): Response
     {
-        $piece = new Piece();
-        $repopiece = $this->getDoctrine()->getRepository(Piece::class);
-        $piece = $repopiece->findOneById($idpiece);
+        $em = $this->getDoctrine()->getManager();
+        $PieceRepository = $em->getRepository(Piece::class);
 
-        $form = $this->createForm(ModifyPieceType::class);
-       
-        $form->add('ajouter', submitType::class, array('label'=>'Modifier'));
+        $ModifyPiece = $PieceRepository->find($idpiece);
+        $form = $this->createForm(ModifyPieceType::class, $ModifyPiece);
+        $form->add('sauvegarder', SubmitType::class, array('label'=>'sauvegarder'));
+ 
         $form->handleRequest($request);
 
- 
 
-        if( $request->isMethod('post') && $form->isValid())
-        {
-            //Trouver comment preload les data
-            $infoPiece = $form->getData();
+        if($request->isMethod('post') && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($ModifyPiece);
+            $em->flush();
 
-            $piece->setNom($form->get('nom')->getData());
-            $piece->setDescription($form->get('description')->getData());
-            $piece->setQteTotal($form->get('QteTotal')->getData());
-            $piece->setQteEmprunter($form->get('QteEmprunter')->getData());
-            $piece->setQteBrise($form->get('QteBrise')->getData());
-            $piece->setQtePerdu($form->get('QtePerdu')->getData());
-            $piece->setIdCategorie($form->get('idCategorie')->getData());
+            $session = $request->getSession();
+            $session->getFlashBag()->add('modification', 'Piece modifié avec succès!');
 
-
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($piece);
-            $entityManager->flush();
-    
             return $this->redirect($this->generateUrl('inventaire'));
         }
         return $this->render('inventaire/ModifyPiece.html.twig', [
-            'controller_name' => 'InventaireController',
-            'piece' => $piece,
             'modifyPieceForm' => $form->createView(),
-
-        ]);
+            'title' => 'Modifier une piece',
+            'type' => 'modifier',
+            ]);
 
     }
             /**
