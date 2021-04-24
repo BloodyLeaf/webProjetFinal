@@ -1,20 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ReportController!{% endblock %}
+{% block title %}Rapport{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/Productivity/Documents/GitHub/webProjetFinal/projetIntegrateur/src/Controller/ReportController.php'|file_link(0) }}">src/Controller/ReportController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/Productivity/Documents/GitHub/webProjetFinal/projetIntegrateur/templates/report/index.html.twig'|file_link(0) }}">templates/report/index.html.twig</a></code></li>
-    </ul>
+<div class="center">
+<br>
+<br>
+    <h1 class="center">Rapport</h1>
+<br>
+<br>
+    Voici les différents rapports disponible :
+    <br>
+    <br>
+    <a class="btn btn-primary"href="/reportpiece", role="button">Rapport Piece</a>
+    <br>
+    <br>
+    <a class="btn btn-primary"href="/reportemprunt", role="button">Rapport Emprut</a>
+    <br>
+    <br>
+    <a class="btn btn-primary"href="/reportutilisateur", role="button">Rapport Utilisateur</a>
+    
 </div>
 {% endblock %}

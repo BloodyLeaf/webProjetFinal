@@ -6,12 +6,15 @@ use App\Entity\Categorie;
 use App\Entity\Piece;
 use App\Form\AddPieceType;
 use App\Form\ModifyPieceType;
+use App\Form\CategorieFormType;
+use App\Entity\BDVersion;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Validator\Constraints\DateTime;
 class InventaireController extends AbstractController
 {
     /**
@@ -82,6 +85,15 @@ class InventaireController extends AbstractController
             $entityManager->persist($piece);
             $entityManager->flush();
     
+
+            $bdVersion = new Bdversion;
+            $bdVersion->setTimestamp(new \DateTime());
+            $bdVersion->setTableModifier("piece");
+            
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($bdVersion);
+            $entityManager->flush();
+
             return $this->redirect($this->generateUrl('inventaire'));
         }
         return $this->render('inventaire/addPiece.html.twig', [
@@ -110,6 +122,13 @@ class InventaireController extends AbstractController
             $em->persist($ModifyPiece);
             $em->flush();
 
+            $bdVersion = new Bdversion;
+            $bdVersion->setTimestamp(new \DateTime());
+            $bdVersion->setTableModifier("piece");
+            
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($bdVersion);
+            $entityManager->flush();
             $session = $request->getSession();
             $session->getFlashBag()->add('modification', 'Piece modifié avec succès!');
 
@@ -140,5 +159,42 @@ class InventaireController extends AbstractController
 
         return $this->redirect($this->generateUrl('inventaire'));
 
+    }
+    /**
+     * @Route("/addcategorie", name="add_categorie")
+     */ 
+    public function addCategorie(Request $request): Response
+    {
+        $categorie = new Categorie();
+        $form = $this->createForm(CategorieFormType::class, $categorie);
+
+        $form->add('ajouter', submitType::class, array('label'=>'Ajouter'));
+        $form->handleRequest($request);
+
+        if( $request->isMethod('post') && $form->isValid())
+        {
+            $default = 0;
+            $infoCategorie = $form->getData();
+
+            $categorie->setNom($form->get('nom')->getData());
+            
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($categorie);
+            $entityManager->flush();
+    
+
+            $bdVersion = new Bdversion;
+            $bdVersion->setTimestamp(new \DateTime());
+            $bdVersion->setTableModifier("categorie");
+            
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($bdVersion);
+            $entityManager->flush();
+
+            return $this->redirect($this->generateUrl('inventaire'));
+        }
+        return $this->render('inventaire/addCategorie.html.twig', [
+            'CategorieForm' => $form->createView(),
+        ]);
     }
 }

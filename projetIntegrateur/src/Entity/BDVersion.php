@@ -4,7 +4,8 @@ namespace App\Entity;
 
 use App\Repository\BDVersionRepository;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Validator\Constraints\DateTime;
 /**
  * @ORM\Entity(repositoryClass=BDVersionRepository::class)
  */
