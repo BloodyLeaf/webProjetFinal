@@ -2,7 +2,7 @@
 /* Custom filter pour filtrer la table par categorie */
 $.fn.dataTable.ext.search.push(
   function( settings, data, dataIndex ) {
-    if ( settings.nTable.id !== 'inventaire' ) {
+    if ( settings.nTable.id !== 'inventaire') {
       return true;
     }
       var categorieFilter = $("#filterCategorie").val();
@@ -16,7 +16,23 @@ $.fn.dataTable.ext.search.push(
       return false;
   }
 );
+/* Custom filter pour filtrer la table par reportPiece */
+$.fn.dataTable.ext.search.push(
+  function( settings, data, dataIndex ) {
+    if ( settings.nTable.id !== 'reportPiece') {
+      return true;
+    }
+      var categorieFilter = $("#filterReportPiece").val();
+      var categorie = data[2]; 
 
+      if ( ( categorieFilter == "" ) ||
+           ( categorieFilter == categorie ) )
+      {
+          return true;
+      }
+      return false;
+  }
+);
 
 
 /* Custom filter pour filtrer la table par État de réservation */
@@ -162,7 +178,20 @@ tableReportPiece =  $('#reportPiece').DataTable({
   },
 
   responsive: true,
+  dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'pdfHtml5',
+                download: 'open'
+            }
+        ],
+        "paging":   false,
 });
+
+  //Event listener pour les filtres de la table réservation
+  $('#filterReportPiece').change( function() {
+    tableReportPiece.draw();
+  });
 
 } );
 
