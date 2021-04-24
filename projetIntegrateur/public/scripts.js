@@ -57,6 +57,26 @@ $.fn.dataTable.ext.search.push(
 );
 
 
+/* Custom filter pour filtrer la table par État de réservation */
+
+$.fn.dataTable.ext.search.push(
+  function( settings, data, dataIndex ) {
+    //Si c'est n'est pas la table Réservation, n'applique pas le filtre
+    if ( settings.nTable.id !== 'rapportReservation' ) {
+      return true;
+    }
+    
+      var filterEtat = $("#filterRapportEmprunt").val();   //Va chercher la valeur du select avec les filtres
+      var Etat = data[6];                           //Va chercher les valeurs des ID État qui sont dans une colonne caché
+
+      if ( ( filterEtat == "" ) ||                  // si le filtre est vide ou à un état en particulier, affiche le tout
+           ( filterEtat == Etat ) )
+      {
+          return true;
+     }
+      return false;
+  }
+);
 
 
 var tableReservation
@@ -160,7 +180,9 @@ $(document).ready( function () {
   tableReservation.draw();
 });
     
-  
+   /*
+    table Report Piece
+    */ 
 tableReportPiece =  $('#reportPiece').DataTable({
 
   "language": {
@@ -179,20 +201,83 @@ tableReportPiece =  $('#reportPiece').DataTable({
 
   responsive: true,
   dom: 'Bfrtip',
-        buttons: [
-            {
-                extend: 'pdfHtml5',
-                download: 'open'
-            }
-        ],
-        "paging":   false,
+  buttons: [
+     'csv', 'excel', 'pdf'
+],
+"paging":   false,
+
 });
 
-  //Event listener pour les filtres de la table réservation
-  $('#filterReportPiece').change( function() {
-    tableReportPiece.draw();
+$('#filterReportPiece').change( function() {
+  tableReportPiece.draw();
+});
+
+/*
+table Report Utilisateur
+*/ 
+tableReportUtilisateurs =  $('#ReportUtilisateurs').DataTable({
+
+  "language": {
+      "lengthMenu": "Afficher _MENU_ par pages",
+      "search": "Rechercher:",
+      "zeroRecords": "Aucun utilisateur trouvé",
+      "info": "Page _PAGE_ de _PAGES_",
+      "infoEmpty": "Aucun utilisateur trouvé",
+      "infoFiltered": "(filtrer dans _MAX_ enregistrement)",
+      "paginate": {
+      "next": "Page suivante",
+      "previous": "page précédente"
+}
+    },
+
+  responsive: true,
+  dom: 'Bfrtip',
+  buttons: [
+      'csv', 'excel', 'pdf'
+  ],
+  "paging":   false,
   });
 
+  //Event listener pour les filtres de la table report Utilisateurs
+  $('#ReportUtilisateurs').change( function() {
+    tableReportUtilisateurs.draw();
+  });
+
+/*
+  table rapport Reservation
+  */ 
+  tableRapportReservation =  $('#rapportReservation').DataTable({
+
+    "language": {
+        "lengthMenu": "Afficher _MENU_ par pages",
+        "search": "Rechercher:",
+        "zeroRecords": "Aucune réservation trouvée",
+        "info": "Page _PAGE_ de _PAGES_",
+        "infoEmpty": "Aucune Réservation dans l'inventaire",
+        "infoFiltered": "(filtrer dans _MAX_ enregistrement)",
+        "paginate": {
+  "next": "Page suivante",
+  "previous": "page précédente"
+  
+}
+    },
+
+    responsive: true,
+
+
+    "columnDefs": [
+      {
+          "targets": [ 6 ],
+          "visible": false,
+          "searchable": true
+      }
+  ],
+  dom: 'Bfrtip',
+  buttons: [
+      'csv', 'excel', 'pdf'
+  ],
+  "paging":   false,
+});
 } );
 
 
