@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-
 class InventaireController extends AbstractController
 {
     /**
@@ -90,20 +89,23 @@ class InventaireController extends AbstractController
         ]);
 
     }
-            /**
-     * @Route("/modify", name="modify_piece")
+    /**
+     * @Route("/modify/{idpiece}",
+     *    defaults={"idpiece" = 0},
+     *    name="modify_piece")
      */
-    public function modifyPiece(Request $request): Response
+    public function modifyPiece(Request $request, $idpiece): Response
     {
         $piece = new Piece();
-        $form = $this->createForm(ModifyPieceType::class, $piece);
+        $repopiece = $this->getDoctrine()->getRepository(Piece::class);
+        $piece = $repopiece->findOneById($idpiece);
 
-        $form->add('ajouter', submitType::class, array('label'=>'Ajouter'));
+        $form = $this->createForm(ModifyPieceType::class);
+       
+        $form->add('ajouter', submitType::class, array('label'=>'Modifier'));
         $form->handleRequest($request);
 
-        $piece = $this->getDoctrine()
-            ->getRepository(Piece::class)
-            ->find($id);
+ 
 
         if( $request->isMethod('post') && $form->isValid())
         {
@@ -127,16 +129,26 @@ class InventaireController extends AbstractController
             return $this->redirect($this->generateUrl('inventaire'));
         }
         return $this->render('inventaire/ModifyPiece.html.twig', [
+            'controller_name' => 'InventaireController',
+            'piece' => $piece,
             'modifyPieceForm' => $form->createView(),
+
         ]);
 
     }
             /**
-     * @Route("/delete", name="delete_piece")
-     */
-    public function deletePiece(Request $request): Response
+     * @Route("/delete/{idpiece}",
+     *    defaults={"idpiece" = 0},
+     *    name="delete_piece")
+     */ 
+    public function deletePiece(Request $request, $idpiece): Response
     {
         //TODO: trouver comment identifier le produit à partir du bouton
+        $piece = new Piece();
+        $pieceRepo = $this->getDoctrine()->getRepository(Piece::class);
+        $piece = $pieceRepo->findOneById($idpiece);
+
+        $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($piece);
         $entityManager->flush();
 

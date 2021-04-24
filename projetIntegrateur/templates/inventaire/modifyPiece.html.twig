@@ -23,7 +23,7 @@
 
         <div class="form-login">
             {{ form_start(modifyPieceForm) }}
-                {{ form_row(modifyPieceForm.nom) }}
+                {{ form_row(modifyPieceForm.nom, {'attr': {'value': {{"piece.nom"}} }})}}
                 {{ form_row(modifyPieceForm.description) }}
                 {{ form_row(modifyPieceForm.QteTotal) }}
                 {{ form_row(modifyPieceForm.QteEmprunter) }}
