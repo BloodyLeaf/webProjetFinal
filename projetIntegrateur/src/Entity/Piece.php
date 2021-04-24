@@ -197,4 +197,15 @@ class Piece
             'qqt' => (($this->getQteTotal()) - ($this->getQteEmprunter()) - ($this->getQteBrise()) - ($this->getQtePerdu()))
         ];
     }
+    public function fullPiece(){
+        return [
+            'id'=> $this->getId(),
+            'nom'=>$this->getNom(),
+            'description' => $this->getDescription(),
+            'QteDisponible' => (($this->getQteTotal()) - ($this->getQteEmprunter()) - ($this->getQteBrise()) - ($this->getQtePerdu())),
+            'idCategorie' => $this->getIdCategorie()
+        ];
+        
+        
+    }
 }

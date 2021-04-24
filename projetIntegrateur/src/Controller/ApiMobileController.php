@@ -98,5 +98,25 @@ class ApiMobileController extends AbstractController
 
         return new JsonResponse($message, Response::HTTP_OK);
     }
-    
+    /**
+     * @Route("/api-mobile-listeComplete", name="api_piece_InvetaireComplet", methods={"GET"})
+     */
+    public function getWholeInventory(): JsonResponse
+    {
+        
+        $em = $this->getDoctrine()->getManager();
+        $piecesRepository = $em->getRepository(Piece::class);
+        $listpiece = $piecesRepository->findAll();
+        $pieceArray = array();
+        foreach($listpiece as $piece){
+            $qqt = ($piece->getQteTotal()) - ($piece->getQteEmprunter()) - ($piece->getQteBrise()) - ($piece->getQtePerdu());
+            if ($qqt > 0) {
+                $pieceDesc = $piece->fullPiece();
+                array_push($pieceArray,$pieceDesc);
+            }
+        }
+        return new JsonResponse($pieceArray, Response::HTTP_OK);
+    }
 }
+
+    
