@@ -77,6 +77,7 @@ class ApiMobileController extends AbstractController
     {
         //j'ai besoin d'un premier utilisateur mais je vais attendre que l'interface d'inscription sois fait pour éviter des probleme 
         // d'un mauvais insert 
+        // REEEEEEEEEEEEEEE
         $em = $this->getDoctrine()->getManager();
         $empruntRepository = $em->getRepository(Emprunt::class);
         $emprunt = $empruntRepository->find($id);
