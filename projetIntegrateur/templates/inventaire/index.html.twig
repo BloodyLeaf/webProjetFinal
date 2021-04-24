@@ -68,7 +68,7 @@
                 <td> <input type="text" name="QteTotal" value="{{ piece[0].QteTotal }}" onblur="changeQTE({{piece[0].id}}, this, {{piece[0].QteTotal}})" readonly="true" ondblclick="this.readOnly='';"> </td>
                 <td>{{ piece[0].QteEmprunter }}</td>
                 <td>{{ piece[0].QtePerdu }}</td>
-                <td> {{ piece[0].QteTotal }}</td>
+                <td> {{ piece[0].QteBrise }}</td>
                 <td> <a href="#2"> Voir l'image </td>
                 <td> <a class="btn btn-primary"href="modify/{{ref}}", role="button">Modifer</a> </td>
                 <td> <a class="btn btn-danger" href="delete/{{ref}}" role="button">Supprimer</a> </td>
