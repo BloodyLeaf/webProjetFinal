@@ -10,6 +10,9 @@
    Historique de modifications :
    Date           	Nom               	Description
    =============================================
+   20 avril     Olivier Vigneault       Création du fichier et du
+                                        système d'authentification
+                                        (mode auto avec symfony)
     ****************************************/
 namespace App\Security;
 
