@@ -17,6 +17,7 @@
     22 avril 	P-À		Tente de résoudre le probleme de la fonction supprimer et ajout de d’une fonction pour envoyer l'entièreté de l’inventaire et les états des commandes. Malheuresement j’ai des bug et elle ne sont pas fonctionnel
     23 Avril 	P-À		Tente de regler les bug associer à la suppresion d’une commande, l’envoi de l’inventaire et l’Affichage des états. Pas reglé masi le probleme viens de doctrine lorsqu’il veut envoyer des clé étran
     24 avril	P-À		Probleme de doctrine reglé fichier API complété
+    25 avril    Oli     Création des méthodes pour authentifier l'utilisateur et faire la modification de son mot de passe
 
 
  ****************************************/
