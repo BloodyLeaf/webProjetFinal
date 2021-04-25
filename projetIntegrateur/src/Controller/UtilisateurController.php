@@ -54,7 +54,6 @@ class UtilisateurController extends AbstractController
                     $password
                 )
             );
-            /*$user->setPassword(sha1($password));*/
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
