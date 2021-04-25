@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rapport réservations et emprunts{% endblock %}
+
+{% block body %}
+<br>
+<br>
+<h1 class="center"> Rapport des réservations et emprunts</h1>
+<br>
+<br>
+
+
+
+<div id="container"> 
+
+
+<!-- Filtre pour le table rerservation -->
+<label for="filterRapportEmprunt">Filtrer : </label>
+<select name="filterRapportEmprunt" id="filterRapportEmprunt">
+    <option value=""></option>
+    {% for etat in etats %}
+        {% if etat.nom != "Terminer" %}
+            <option value="{{etat.id}}">{{etat.nom}} 
+            </option>
+        {% endif %}
+    {% endfor %}
+</select>
+
+<br>
+<br>
+
+<table id="rapportReservation" class="display responsive compact nowrap" style="width:100%">
+    <thead>
+        <tr>
+            <th >Étudiant</th>
+            <th >Pièces</th>
+            <th >Qte empruntée</th>
+            <th >Date de retour</th>
+            <th >État</th>
+            <th >Retourner</th>
+            <th >EtatId</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        {% set row = 0 %}
+       {% for reservation in reservations %}
+        <tr> 
+                <td> {{ reservation['Etudiant'] }}</td>
+                <td> {{ reservation['Pieces'] }}</td>
+                <td> {{ reservation['qteActuelle'] }}</td>
+                <td> {{ reservation['dateRetourPrevue'] | date('Y-m-d') }}</td>
+                <td> <select name="etat" onchange="modifierEtat({{reservation['id']}}, this)">
+                        {% for etat in etats %}
+                            {% if etat.nom != "Terminer" %}
+                                <option value="{{etat.id}}" {% if reservation['Etat'] == etat.nom %} selected {% endif %}>{{etat.nom}} 
+                                </option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </td>
+                <td> <button type="button" data-rowNb="{{row}}" data-idreservation="{{reservation['id']}}" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modalRetour" onclick="retourPieceForm(this)"> Retourner </button> </td>
+                <td>   {{reservation['idEtat']}}  </td>
+         </tr>
+         {% set row = row + 1 %}
+        {% endfor %}
+    </tbody>
+     <tfoot>
+            <tr>
+            <th>Étudiant</th>
+            <th >Pièces</th>
+            <th >Qte empruntée</th>
+            <th >Date de retour</th>
+            <th >État</th>
+            <th >Retourner</th>
+            <th >EtatId</th>
+            </tr>
+        </tfoot>
+</table>
+
+</div>
+{% endblock %}

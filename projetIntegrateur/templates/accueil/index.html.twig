@@ -3,11 +3,196 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
+
+
+
+<!-- Modal -->
+<div class="modal fade bd-example-modal-lg" id="modalRetour" tabindex="-1" aria-labelledby="modalRetourLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalRetourLabel">Retourner</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <!-- Message d'Erreur  -->
+        <div id="errorMessageDisplayReturn" class="displayNone">
+            <div class="d-flex justify-content-center m-5 alert alert-danger">   
+                <span id="errorMessageReturn"> </span> 
+            </div>
+        </div>
+
+        <form>
+        <!-- first row -->
+        <div class="row">
+            <div class="col">
+             <label for="nomEtudiant">Nom Étudiant</label>
+            <input type="text" class="form-control" id="nomEtudiant" disabled>
+            </div>
+            <div class="col">
+            <label for="nomEtudiant">Quantité empruntée</label>
+            <input type="text" class="form-control" id="QTEEmprunter" disabled>
+            </div>
+            <div class="col">
+            <label for="piece">Pièce</label>
+            <input type="text" class="form-control" id="piece" disabled>
+            </div>
+        </div>
+        <br>
+        <br>
+        <!-- second row -->
+         <div class="row">
+            <div class="col">
+            <label for="nomEtudiant">Quantité retournée</label>
+            <input type="text" class="form-control"  id="QTERetourner" >
+            </div>
+            <div class="col">
+                <label for="pieceEndommage">Pièce endommagée ?</label>
+                <div class="form-check">
+                <input type="radio"  onclick="showDescription()" name="pieceEndommage" id="ouiBrise" value="oui">
+                <label class="form-check-label" for="pieceEndommage">
+                Oui
+                </label>
+                </div>
+
+                <div class="form-check">
+                <input type="radio" name="pieceEndommage" id="nonBrise" value="non" onclick="showDescription()" checked>
+                <label class="form-check-label" for="pieceEndommage">
+                Non
+                </label>
+                </div>
+            </div>
+            
+            <div class="col">
+            <textarea class="displayNone" id="descriptionPieceBrise"  rows="4" cols="50" placeholder="description..."></textarea>
+            </div>
+
+        </div>
+
+        <!-- third row -->
+        <div class="row">
+            <div id="QTEBriseDisplay" class="col displayNone">
+            <label for="QTEBrise">Quantité brisée</label>
+            <input type="text" id="QTEBrise" >
+            </div>
+
+            <div id="QTEPerduDisplay" class="col displayNone">
+            <label for="QTEPerdu">Quantité perdue</label>
+            <input type="text"   id="QTEPerdu" >
+            </div>
+
+            <div class="col">
+            </div>
+            
+        
+
+        </div>
+
+        <input type="hidden" id="reservationID">
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Annuler</button>
+        <button type="button" class="btn btn-primary" onclick="traitementRetourPiece()">Confirmer le retour</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <br>
 <br>
-<h1> Liste des réservations et emprunt en cours </h1>
+<h1 class="center"> Liste des réservations et emprunt en cours </h1>
 <br>
 <br>
 
 
+<!-- Message de réussite  -->
+<div id="successMessageDisplay" class="displayNone">
+    <div class="d-flex justify-content-center m-5 alert alert-success">   
+        <span id="successMessage"> </span> 
+    </div>
+</div>
+
+<!-- Message d'Erreur  -->
+<div id="errorMessageDisplay" class="displayNone">
+    <div class="d-flex justify-content-center m-5 alert alert-danger">   
+        <span id="errorMessage"> </span> 
+    </div>
+</div>
+
+
+
+
+
+<div id="container"> 
+
+
+<!-- Filtre pour le table rerservation -->
+<label for="filterEmprunt">Filtrer : </label>
+<select name="filterEmprunt" id="filterEmprunt">
+    <option value=""></option>
+    {% for etat in etats %}
+        {% if etat.nom != "Terminer" %}
+            <option value="{{etat.id}}">{{etat.nom}} 
+            </option>
+        {% endif %}
+    {% endfor %}
+</select>
+
+<br>
+<br>
+
+<table id="reservation" class="display responsive compact nowrap" style="width:100%">
+    <thead>
+        <tr>
+            <th >Étudiant</th>
+            <th >Pièces</th>
+            <th >Qte empruntée</th>
+            <th >Date de retour</th>
+            <th >État</th>
+            <th >Retourner</th>
+            <th >EtatId</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        {% set row = 0 %}
+       {% for reservation in reservations %}
+        <tr> 
+                <td> {{ reservation['Etudiant'] }}</td>
+                <td> {{ reservation['Pieces'] }}</td>
+                <td> {{ reservation['qteActuelle'] }}</td>
+                <td> {{ reservation['dateRetourPrevue'] | date('Y-m-d') }}</td>
+                <td> <select name="etat" onchange="modifierEtat({{reservation['id']}}, this)">
+                        {% for etat in etats %}
+                            {% if etat.nom != "Terminer" %}
+                                <option value="{{etat.id}}" {% if reservation['Etat'] == etat.nom %} selected {% endif %}>{{etat.nom}} 
+                                </option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </td>
+                <td> <button type="button" data-rowNb="{{row}}" data-idreservation="{{reservation['id']}}" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modalRetour" onclick="retourPieceForm(this)"> Retourner </button> </td>
+                <td>   {{reservation['idEtat']}}  </td>
+         </tr>
+         {% set row = row + 1 %}
+        {% endfor %}
+    </tbody>
+     <tfoot>
+            <tr>
+            <th>Étudiant</th>
+            <th >Pièces</th>
+            <th >Qte empruntée</th>
+            <th >Date de retour</th>
+            <th >État</th>
+            <th >Retourner</th>
+            <th >EtatId</th>
+            </tr>
+        </tfoot>
+</table>
+
+</div>
 {% endblock %}

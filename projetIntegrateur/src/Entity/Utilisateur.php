@@ -1,4 +1,16 @@
 <?php
+/****************************************
+   Fichier : Utilisateur.php
+   Auteur : Samuel Fournier, Olivier Vigneault, William Goupil, Pier-Alexander Caron
+   Fonctionnalité : À faire
+   Date : 19 avril 2021
+   Vérification :
+   Date           	Nom               	Approuvé
+   =========================================================
+   Historique de modifications :
+   Date           	Nom               	Description
+   =========================================================
+ ****************************************/
 
 namespace App\Entity;
 
@@ -6,10 +18,12 @@ use App\Repository\UtilisateurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UtilisateurRepository::class)
+ * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
 class Utilisateur implements UserInterface
 {

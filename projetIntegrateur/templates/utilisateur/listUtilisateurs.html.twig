@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Utilisateurs{% endblock %}
+
+{% block body %}
+
+<div id="popup" class="center-screen-h">
+{% for message in app.session.flashbag.get('ajout') %}
+<p class='d-flex justify-content-center m-2 alert alert-success'>{{ message }}</p>
+{% endfor %}
+
+{% for message in app.session.flashbag.get('modification') %}
+	<p class='d-flex justify-content-center m-2 alert alert-success'>{{ message }}</p>
+{% endfor %}
+
+{% for message in app.session.flashbag.get('suppression') %}
+	<p class='d-flex justify-content-center m-2 alert alert-success'>{{ message }}</p>
+{% endfor %}
+</div>
+
+<br>
+<br>
+<div class="center-screen-h">
+<h1>Liste des utilisateurs</h1>
+<br>
+<a href='/ajoututilisateur' type="button" class="btn btn-success">Ajouter un utilisateur</a>
+</div>
+<br>
+
+<div id="container">
+
+<table id="utilisateurs" class="display responsive compact nowrap" style="width:100%">
+    <thead>
+        <tr>
+            <th>Prenom</th>
+            <th>Nom</th>
+            <th>Courriel</th>
+            <th>Numéro de groupe</th>
+            <th>Rôle</th>
+            <th>Etat</th>
+            <th>Modifer</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% set row = 0 %}
+        {% for utilisateur in utilisateurs %}
+        <tr> 
+                <td> {{ utilisateur.prenom }}</td>
+                <td> {{ utilisateur.nom }}</td>
+                <td> {{ utilisateur.email }}</td>
+                {% if utilisateur.noGroupe == 0 %}
+                    <td>aucun</td>
+                {% else %}
+                    <td> {{ utilisateur.noGroupe }}</td>
+                {% endif %}
+                <td> {{ utilisateur.roles[0] }}</td>
+                {% if utilisateur.etat == 0 %}
+                    <td>inactif</td>
+                {% elseif utilisateur.etat == 1 %}
+                    <td>actif</td>
+                {% endif %}
+                <td> <a href='/modifierutilisateur/{{utilisateur.id}}' type="button" class="btn btn-warning">Modifier</a> </td>
+        </tr>
+        {% set row = row + 1 %}
+        {% endfor %}
+    </tbody>
+</table>
+
+</div>
+
+{% endblock %}

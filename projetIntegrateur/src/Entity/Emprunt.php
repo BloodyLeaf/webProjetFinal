@@ -1,4 +1,16 @@
 <?php
+/****************************************
+   Fichier :Emprunt.php
+   Auteur : Samuel Fournier, Olivier Vigneault, William Goupil, Pier-Alexander Caron
+   Fonctionnalité : À faire
+   Date : 19 avril 2021
+   Vérification :
+   Date           	Nom               	Approuvé
+   =========================================================
+   Historique de modifications :
+   Date           	Nom               	Description
+   =========================================================
+ ****************************************/
 
 namespace App\Entity;
 
@@ -22,7 +34,7 @@ class Emprunt
     /**
      * @ORM\Column(type="integer")
      */
-    private $Qte;
+    private $QteInitiale;
 
     /**
      * @ORM\Column(type="date")
@@ -53,13 +65,28 @@ class Emprunt
     private $idSession;
 
     /**
-     * @ORM\OneToMany(targetEntity=CycleVieEmprunt::class, mappedBy="idEmprunt")
+     * @ORM\ManyToOne(targetEntity=EtatEmprunt::class)
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $cycleVieEmprunts;
+    private $idEtat;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $qteActuelle;
+
+    /**
+     * @ORM\OneToMany(targetEntity=IncidentEmprunt::class, mappedBy="idEmprunt")
+     */
+    private $incidentEmprunts;
+
+
+    
 
     public function __construct()
     {
         $this->cycleVieEmprunts = new ArrayCollection();
+        $this->incidentEmprunts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -67,14 +94,14 @@ class Emprunt
         return $this->id;
     }
 
-    public function getQte(): ?int
+    public function getQteInitiale(): ?int
     {
-        return $this->Qte;
+        return $this->QteInitiale;
     }
 
-    public function setQte(int $Qte): self
+    public function setQteInitiale(int $QteInitiale): self
     {
-        $this->Qte = $Qte;
+        $this->QteInitiale = $QteInitiale;
 
         return $this;
     }
@@ -139,33 +166,66 @@ class Emprunt
         return $this;
     }
 
-    /**
-     * @return Collection|CycleVieEmprunt[]
-     */
-    public function getCycleVieEmprunts(): Collection
+    public function getIdEtat(): ?EtatEmprunt
     {
-        return $this->cycleVieEmprunts;
+        return $this->idEtat;
     }
 
-    public function addCycleVieEmprunt(CycleVieEmprunt $cycleVieEmprunt): self
+    public function setIdEtat(?EtatEmprunt $idEtat): self
     {
-        if (!$this->cycleVieEmprunts->contains($cycleVieEmprunt)) {
-            $this->cycleVieEmprunts[] = $cycleVieEmprunt;
-            $cycleVieEmprunt->setIdEmprunt($this);
+        $this->idEtat = $idEtat;
+
+        return $this;
+    }
+
+    public function getQteActuelle(): ?int
+    {
+        return $this->qteActuelle;
+    }
+
+    public function setQteActuelle(int $qteActuelle): self
+    {
+        $this->qteActuelle = $qteActuelle;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|IncidentEmprunt[]
+     */
+    public function getIncidentEmprunts(): Collection
+    {
+        return $this->incidentEmprunts;
+    }
+
+    public function addIncidentEmprunt(IncidentEmprunt $incidentEmprunt): self
+    {
+        if (!$this->incidentEmprunts->contains($incidentEmprunt)) {
+            $this->incidentEmprunts[] = $incidentEmprunt;
+            $incidentEmprunt->setIdEmprunt($this);
         }
 
         return $this;
     }
 
-    public function removeCycleVieEmprunt(CycleVieEmprunt $cycleVieEmprunt): self
+    public function removeIncidentEmprunt(IncidentEmprunt $incidentEmprunt): self
     {
-        if ($this->cycleVieEmprunts->removeElement($cycleVieEmprunt)) {
+        if ($this->incidentEmprunts->removeElement($incidentEmprunt)) {
             // set the owning side to null (unless already changed)
-            if ($cycleVieEmprunt->getIdEmprunt() === $this) {
-                $cycleVieEmprunt->setIdEmprunt(null);
+            if ($incidentEmprunt->getIdEmprunt() === $this) {
+                $incidentEmprunt->setIdEmprunt(null);
             }
         }
 
         return $this;
     }
+
+    public function jetatEmprunt($idState,$nomState){
+        return [
+            'id' => $this->getId(),
+            'idState' => $idState,
+            'nomState' => $nomState
+        ];
+    }
+
 }

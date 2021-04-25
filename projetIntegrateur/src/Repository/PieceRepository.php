@@ -1,5 +1,22 @@
 <?php
 
+/****************************************
+   Fichier : PieceRepository.php
+   Auteur : Samuel Fournier, Olivier Vigneault, William Goupil, Pier-Alexander Caron
+   Fonctionnalité : À faire
+   Date : 19 avril 2021
+   Vérification :
+   Date           	Nom               	Approuvé
+   =========================================================
+   25 avril 2021    Approuvé par l'équipe
+   Historique de modifications :
+   Date           	Nom               	Description
+   =========================================================
+    20 avril 2021 / Samuel / fonction lstPieceCategorie Fait la liste des pieces avec le nom de la categorie pour l’inventaire
+    22 avril        P-À		Ajout d’une fonction update la quantité de loué
+ ****************************************/
+
+
 namespace App\Repository;
 
 use App\Entity\Piece;
@@ -60,5 +77,12 @@ class PieceRepository extends ServiceEntityRepository
 
         return $listeProduit;
     }
+    public function updateQte($id,$qtt){
 
+
+        $this->getEntityManager()
+        ->createQuery("UPDATE App\Entity\Piece p SET p.QteEmprunter = $qtt WHERE p.id = $id")->execute();
+    }
+
+    
 }

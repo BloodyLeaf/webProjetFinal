@@ -9,25 +9,24 @@
         <li class="nav-item">
           <a id="navItem1" class="nav-link"  aria-current="page" href="/">Accueil</a>
         </li>
-        <li class="nav-item navItem1">
-          <a id="navItem2" class="nav-link" href="inventaire">Inventaire</a>
+        <li class="nav-item">
+          <a id="navItem2" class="nav-link" href="/inventaire">Inventaire</a>
         </li>
         <li class="nav-item">
-          <a id="navItem3" class="nav-link" href="#">Ajouter une pièce</a>
+          <a id="navItem3" class="nav-link" href="/add">Ajouter une pièce</a>
         </li>
          <li class="nav-item">
-          <a id="navItem4" class="nav-link" href="#">Ajouter étudiant</a>
-        </li>
+          <a id="navItem4" class="nav-link" href="/utilisateurs">Gestion des utilisateurs</a>
         </li>
          <li class="nav-item">
-          <a id="navItem5" class="nav-link" href="#">Modifier un étudiant</a>
-        </li>
-         </li>
-         <li class="nav-item">
-          <a id="navItem6" class="nav-link" href="#">Rapport</a>
+          <a id="navItem5" class="nav-link" href="/report">Rapport</a>
         </li>
           <li class="nav-item">
-          <a id="navItem7" class="nav-link" href="#">Se déconnecter</a>
+          {% if app.user %}
+            <a id="navItem6" class="nav-link" href="/logout">Déconnexion</a>
+          {% else %}
+            <a id="navItem6" class="nav-link" href="/login">Connexion</a>
+          {% endif %}
         </li>
       </ul>
     </div>

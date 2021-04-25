@@ -1,3 +1,22 @@
+/****************************************
+   Fichier : styles.css
+   Auteur : Samuel Fournier, Olivier Vigneault
+   Fonctionnalité : À faire
+   Date : 19 avril 2021
+   Vérification :
+   Date           	Nom               	Approuvé
+   =========================================================
+   Historique de modifications :
+   Date           	Nom               	Description
+   =============================================
+   19 Avril 2021    Samuel              Ajouter le CSS pour header + footer
+   23 Avril 2021    Samuel              Ajouter le CSS pour center les datatables
+   
+    ****************************************/
+main {
+    min-height: 85vh;
+}
+
 #navItem1{
  color :white;
 }
@@ -56,4 +75,59 @@ nav li {
     width: 95%;
 }
 
+
+.displayNone{
+    display: none;
+}
+
+.center-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 75vh;
+  }
+
+.center-screen-h {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.form-login {
+    width: 50%;
+    margin: auto;
+    justify-content: center;
+}
+
+.form-login input, .form-login select, input[type="radio"]{
+    width: 30%;
+    margin: 2% auto;
+}
+
+.button-login, #change_password_form_confirmer, #utilisateur_form_ajouter, #utilisateur_form_sauvegarder {
+    width: 30%;
+    padding: 0.5% 0;
+}
+
+.titleFormUtilisateur {
+    margin: 5% 0;
+}
+
+
+#container{
+    width: 95%;
+    margin: 0 auto;
+}
+
+.form-error-message {
+    justify-content: center;
+    text-align: center;
+    margin-right: 5.75%;
+}
+
+.popup {
+    width: 35%;
+}
 
