@@ -1,5 +1,16 @@
 <?php
-
+/****************************************
+   Fichier : UtilisateurRepository.php
+   Auteur : Samuel Fournier, Olivier Vigneault, William Goupil, Pier-Alexander Caron
+   Fonctionnalité : À faire
+   Date : 19 avril 2021
+   Vérification :
+   Date           	Nom               	Approuvé
+   =========================================================
+   Historique de modifications :
+   Date           	Nom               	Description
+   =============================================
+    ****************************************/
 namespace App\Repository;
 
 use App\Entity\Utilisateur;

@@ -5,9 +5,33 @@
 {% block body %}
 <br>
 <br>
-<h1> Liste des pièces </h1>
+<h1 class="center"> Liste des pièces </h1>
 <br>
 <br>
+
+
+<div class="modal" id="modalSupprimer" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Supprimer</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <span id="messageSupprimer"> </span>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        <!-- <button type="button" class="btn btn-danger">Supprimer</button>-->
+        <a class="btn btn-danger" id="supprimerButton" role="button">Supprimer</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 
 <!-- Message de réussite  -->
 <div id="successMessageDisplay" class="displayNone">
@@ -41,17 +65,17 @@
 <br>
 <br>
 
+
 <table id="inventaire" class="display responsive compact nowrap" style="width:100%">
     <thead>
         <tr>
             <th >Nom</th>
-            <th >Description</th>
+            <th class="none">Description</th>
             <th >Categorie</th>
             <th >QTE Total</th>
             <th >QTE Emprunter</th>
             <th >QTE Perdu</th>
             <th >QTE Brise</th>
-            <th class="none">Image</th>
             <th>Modifer</th>
             <th>Supprimer</th>
             
@@ -59,7 +83,8 @@
     </thead>
     <tbody>
         {% for piece in pieces %}
-        {#% set ref = "piece/" ~ piece[0].id %#}
+        {% set ref = piece[0].id %}
+        {% set nomPiece = piece[0].nom %}
          <tr> 
                 <td> {{ piece[0].nom }}</td>
                 <td> {{ piece[0].description }}</td>
@@ -67,23 +92,22 @@
                 <td> <input type="text" name="QteTotal" value="{{ piece[0].QteTotal }}" onblur="changeQTE({{piece[0].id}}, this, {{piece[0].QteTotal}})" readonly="true" ondblclick="this.readOnly='';"> </td>
                 <td>{{ piece[0].QteEmprunter }}</td>
                 <td>{{ piece[0].QtePerdu }}</td>
-                <td> {{ piece[0].QteTotal }}</td>
-                <td> <a href="#2"> Voir l'image </td>
-                <td> <a class="btn btn-primary"href="/modify/{piece}", role="button">Modifer</a> </td>
-                <td> <a class="btn btn-danger" href="/delete/{piece}" role="button">Supprimer</a> </td>
+                <td> {{ piece[0].QteBrise }}</td>
+                <td> <a class="btn btn-primary" href="modify/{{ref}}", role="button">Modifer</a> </td>
+                <!--<td> <a class="btn btn-danger"  href="delete/{{ref}}" role="button">Supprimer</a> </td>-->
+                <td> <button type="button" class="btn btn-danger" data-idPiece="{{ref}}" data-nom="{{nomPiece}}" onclick="deleteProduct(this)" data-bs-toggle="modal" data-bs-target="#modalSupprimer" >Supprimer</button> </td>
             </tr>
         {% endfor %}
     </tbody>
     <tfoot>
             <tr>
             <th >Nom</th>
-            <th >Description</th>
+            <th class="none">Description</th>
             <th >Categorie</th>
             <th >QTE Total</th>
             <th >QTE Emprunter</th>
             <th >QTE Perdu</th>
             <th >QTE Brise</th>
-            <th class="none">Image</th>
             <th>Modifer</th>
             <th>Supprimer</th>
             </tr>

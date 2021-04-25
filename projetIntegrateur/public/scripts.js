@@ -1,8 +1,36 @@
+/****************************************
+   Fichier : scripts.js
+   Auteur : Samuel Fournier, William Goupil
+   Fonctionnalité : À faire
+   Date : 19 avril 2021
+   Vérification :
+   Date           	Nom               	Approuvé
+   =========================================================
+   Historique de modifications :
+   Date           	Nom               	Description
+   =========================================================
+19 avril 2021	/ Samuel	/ Ajout du code pour la table inventaire avec datatable
+19 avril 2021	/ Samuel / Fait la fonction qui reçoit la QTE et le ID pour changer la QTE de la pièce, Le AJAX reste à faire
+	19 avril 2021	/ Samuel / Ajout de la partie AJAX pour changer les quantités
+	20 avril 2021	/ Samuel / Ajout du code pour la table inventaire avec datatable
+	20 avril 2021	/ Samuel / Ajout de la fonction AJAX pour envoyer le changement d’état
+	21 avril 2021 / Samuel / Fonction qui permet de remplir le fomulaire dynamiquement
+21 avril 2021 / Samuel / Fonction qui permet de clear le formulaire
+21 avril 2021 / Samuel / Fonction qui permet d’afficher des champs supplémentaires lorsque la case oui du formulaire est coché
+21 avril 2021 / Samuel / Fonction qui envoie en AJAX le retour d’une pièce
+24 avril 2021 / William / Ajout du code pour la table inventaire avec tableReportPiece
+24 avril 2021 / William / Correction du code pour la table inventaire avec tableReportPiece
+24 avril 2021 / William / Ajout du code pour la table inventaire avec tableReportUtilisateur
+24 avril 2021 / William / Ajout du code pour le filtre de tableReportPiece
+24 avril 2021 / William / Ajout du code pour la table inventaire avec tableReportReservation
+
+	
+ ****************************************/
 
 /* Custom filter pour filtrer la table par categorie */
 $.fn.dataTable.ext.search.push(
   function( settings, data, dataIndex ) {
-    if ( settings.nTable.id !== 'inventaire' ) {
+    if ( settings.nTable.id !== 'inventaire') {
       return true;
     }
       var categorieFilter = $("#filterCategorie").val();
@@ -16,7 +44,23 @@ $.fn.dataTable.ext.search.push(
       return false;
   }
 );
+/* Custom filter pour filtrer la table par reportPiece */
+$.fn.dataTable.ext.search.push(
+  function( settings, data, dataIndex ) {
+    if ( settings.nTable.id !== 'reportPiece') {
+      return true;
+    }
+      var categorieFilter = $("#filterReportPiece").val();
+      var categorie = data[2]; 
 
+      if ( ( categorieFilter == "" ) ||
+           ( categorieFilter == categorie ) )
+      {
+          return true;
+      }
+      return false;
+  }
+);
 
 
 /* Custom filter pour filtrer la table par État de réservation */
@@ -41,6 +85,26 @@ $.fn.dataTable.ext.search.push(
 );
 
 
+/* Custom filter pour filtrer la table par État de réservation */
+
+$.fn.dataTable.ext.search.push(
+  function( settings, data, dataIndex ) {
+    //Si c'est n'est pas la table Réservation, n'applique pas le filtre
+    if ( settings.nTable.id !== 'rapportReservation' ) {
+      return true;
+    }
+    
+      var filterEtat = $("#filterRapportEmprunt").val();   //Va chercher la valeur du select avec les filtres
+      var Etat = data[6];                           //Va chercher les valeurs des ID État qui sont dans une colonne caché
+
+      if ( ( filterEtat == "" ) ||                  // si le filtre est vide ou à un état en particulier, affiche le tout
+           ( filterEtat == Etat ) )
+      {
+          return true;
+     }
+      return false;
+  }
+);
 
 
 var tableReservation
@@ -135,7 +199,6 @@ $(document).ready( function () {
       }
   ],
 
-  
 
 
 });
@@ -143,10 +206,106 @@ $(document).ready( function () {
   //Event listener pour les filtres de la table réservation
  $('#filterEmprunt').change( function() {
   tableReservation.draw();
-} );
+});
     
-  
+   /*
+    table Report Piece
+    */ 
+tableReportPiece =  $('#reportPiece').DataTable({
 
+  "language": {
+      "lengthMenu": "Afficher _MENU_ par pages",
+      "search": "Rechercher:",
+      "zeroRecords": "Aucune pièce trouvées",
+      "info": "Page _PAGE_ de _PAGES_",
+      "infoEmpty": "Aucune pièce dans l'inventaire",
+      "infoFiltered": "(filtrer dans _MAX_ enregistrement)",
+      "paginate": {
+"next": "Page suivante",
+"previous": "page précédente"
+
+}
+  },
+
+  responsive: true,
+  dom: 'Bfrtip',
+  buttons: [
+     'csv', 'excel', 'pdf'
+],
+"paging":   false,
+
+});
+
+$('#filterReportPiece').change( function() {
+  tableReportPiece.draw();
+});
+
+/*
+table Report Utilisateur
+*/ 
+tableReportUtilisateurs =  $('#ReportUtilisateurs').DataTable({
+
+  "language": {
+      "lengthMenu": "Afficher _MENU_ par pages",
+      "search": "Rechercher:",
+      "zeroRecords": "Aucun utilisateur trouvé",
+      "info": "Page _PAGE_ de _PAGES_",
+      "infoEmpty": "Aucun utilisateur trouvé",
+      "infoFiltered": "(filtrer dans _MAX_ enregistrement)",
+      "paginate": {
+      "next": "Page suivante",
+      "previous": "page précédente"
+}
+    },
+
+  responsive: true,
+  dom: 'Bfrtip',
+  buttons: [
+      'csv', 'excel', 'pdf'
+  ],
+  "paging":   false,
+  });
+
+  //Event listener pour les filtres de la table report Utilisateurs
+  $('#ReportUtilisateurs').change( function() {
+    tableReportUtilisateurs.draw();
+  });
+
+/*
+  table rapport Reservation
+  */ 
+  tableRapportReservation =  $('#rapportReservation').DataTable({
+
+    "language": {
+        "lengthMenu": "Afficher _MENU_ par pages",
+        "search": "Rechercher:",
+        "zeroRecords": "Aucune réservation trouvée",
+        "info": "Page _PAGE_ de _PAGES_",
+        "infoEmpty": "Aucune Réservation dans l'inventaire",
+        "infoFiltered": "(filtrer dans _MAX_ enregistrement)",
+        "paginate": {
+  "next": "Page suivante",
+  "previous": "page précédente"
+  
+}
+    },
+
+    responsive: true,
+
+
+    "columnDefs": [
+      {
+          "targets": [ 6 ],
+          "visible": false,
+          "searchable": true
+      }
+  ],
+  dom: 'Bfrtip',
+  buttons: [
+      'csv', 'excel', 'pdf'
+  ],
+  "paging":   false,
+});
 } );
 
 
@@ -385,6 +544,22 @@ function traitementRetourPiece(){
 
 
   $('#modalRetour').modal('hide');
+}
+
+
+
+/*
+Fonction qui permet de supprimer une pièce
+*/
+
+function deleteProduct(e){
+ 
+  let id = e.dataset.idpiece
+  let nom = e.dataset.nom
+  let btn = document.getElementById("supprimerButton")
+  let message = document.getElementById("messageSupprimer");
+  btn.href = "delete/" + id
+  message.innerHTML = "Êtes-vous certain de vouloir supprimer " + nom + " ?" 
 }
 
 

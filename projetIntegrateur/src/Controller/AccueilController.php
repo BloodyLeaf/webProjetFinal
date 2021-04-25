@@ -1,4 +1,20 @@
 <?php
+/****************************************
+   Fichier : AccueilController..php
+   Auteur : Samuel Fournier
+   Fonctionnalité : À faire
+   Date : 19 avril 2021
+   Vérification :
+   Date           	Nom               	Approuvé
+   =========================================================
+   Historique de modifications :
+   Date           	Nom               	Description
+   =========================================================
+20 avril 2021 / Samuel / Ajouter fonction index  l’envoie de la liste des états et réservation au template
+20 avril 2021 / Samuel / Fonction changeEtat  qui permet de changer l’état d’une réservation
+21 avril 2021 / Samuel / fonction returnLoan qui traite le retour d’un emprunt et fait la création d’un incident si nécessaire
+ ****************************************/
+
 
 namespace App\Controller;
 

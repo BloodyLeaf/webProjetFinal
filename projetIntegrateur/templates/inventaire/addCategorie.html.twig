@@ -14,29 +14,18 @@
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 {% endblock %}
 
-{% block title %}Add Piece{% endblock %}
+{% block title %}Ajouter categorie{% endblock %}
 
 {% block body %}
 
     <div class="center-screen">
         <br>
         <br>
-        <h1>Ajouter une piece</h1>
-        <br>
-        <br>
+        <h1>Ajouter une categorie</h1>
         <div class="form-login">
-            {{ form_start(addPieceForm) }}
-                {{ form_row(addPieceForm.nom) }}
-                {{ form_row(addPieceForm.description) }}
-                {{ form_row(addPieceForm.QteTotal) }}
-                {{ form_row(addPieceForm.idCategorie) }}
-            {{ form_end(addPieceForm) }}
-        <br>
-        <br>       
-        <br>
-        <a class="btn btn-primary"href="/addcategorie", role="button">Ajouter une categorie</a>
-        <br>
-        <br>       
+            {{ form_start(CategorieForm) }}
+                {{ form_row(CategorieForm.nom) }}
+            {{ form_end(CategorieForm) }}
         </div>
     </div>
 {% endblock %}

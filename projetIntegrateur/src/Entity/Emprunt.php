@@ -1,4 +1,16 @@
 <?php
+/****************************************
+   Fichier :Emprunt.php
+   Auteur : Samuel Fournier, Olivier Vigneault, William Goupil, Pier-Alexander Caron
+   Fonctionnalité : À faire
+   Date : 19 avril 2021
+   Vérification :
+   Date           	Nom               	Approuvé
+   =========================================================
+   Historique de modifications :
+   Date           	Nom               	Description
+   =========================================================
+ ****************************************/
 
 namespace App\Entity;
 
@@ -208,10 +220,11 @@ class Emprunt
         return $this;
     }
 
-    public function jetatEmprunt(){
+    public function jetatEmprunt($idState,$nomState){
         return [
             'id' => $this->getId(),
-            'state' => $this->getIdEtat()
+            'idState' => $idState,
+            'nomState' => $nomState
         ];
     }
 

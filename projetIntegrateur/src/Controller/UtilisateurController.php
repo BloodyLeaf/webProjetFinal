@@ -1,4 +1,19 @@
 <?php
+/****************************************
+   Fichier : UtilisateurController.php
+   Auteur : Samuel Fournier, Olivier Vigneault, William Goupil, Pier-Alexander Caron
+   Fonctionnalité : À faire
+   Date : 19 avril 2021
+   Vérification :
+   Date           	Nom               	Approuvé
+   =========================================================
+   Historique de modifications :
+   Date           	Nom               	Description
+   =========================================================
+21 avril 2021 / Olivier / Ajouter fonction listUtilisateurs qui permet d’afficher l’ensemble des utilisateurs du site
+21 avril 2021 / Olivier / Ajouter fonction ajouterUtilisateur qui permet d’afficher et de traiter un formulaire permettant l’ajout d’un utilisateur au site
+21 avril 2021 / Olivier / Ajouter fonction modifierUtilisateur qui permet d’afficher et de traiter un formulaire permettant la modification d’un utilisateur du site
+ ****************************************/
 
 namespace App\Controller;
 

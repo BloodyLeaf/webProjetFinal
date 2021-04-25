@@ -1,4 +1,19 @@
 <?php
+/****************************************
+   Fichier : BDVersionRepostory.php
+   Auteur : Samuel Fournier, Olivier Vigneault, William Goupil, Pier-Alexander Caron
+   Fonctionnalité : À faire
+   Date : 19 avril 2021
+   Vérification :
+   Date           	Nom               	Approuvé
+   =========================================================
+   25 avril 2021    Approuvé par l'équipe
+   Historique de modifications :
+   Date           	Nom               	Description
+   =========================================================
+24 avril	P-À		Ajout d’une méthode pour retourner la dernière version de la BD
+ ****************************************/
+
 
 namespace App\Repository;
 
@@ -18,7 +33,6 @@ class BDVersionRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, BDVersion::class);
     }
-
     // /**
     //  * @return BDVersion[] Returns an array of BDVersion objects
     //  */
@@ -47,4 +61,13 @@ class BDVersionRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function getLatestBDVersion(){
+        $bdVersionID = $this->getEntityManager()
+        ->createQuery("SELECT b.id FROM App\Entity\BDVersion b ORDER BY b.timestamp DESC ")->setMaxResults(1)
+        ->getArrayResult();
+       
+        return $bdVersionID;
+        
+    }
+    
 }
