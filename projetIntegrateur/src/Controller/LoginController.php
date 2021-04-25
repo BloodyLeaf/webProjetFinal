@@ -1,4 +1,20 @@
 <?php
+/****************************************
+   Fichier : LoginController.php
+   Auteur : Samuel Fournier, Olivier Vigneault, William Goupil, Pier-Alexander Caron
+   Fonctionnalité : À faire
+   Date : 19 avril 2021
+   Vérification :
+   Date           	Nom               	Approuvé
+   =========================================================
+   25 avril 2021    Approuvé par l'équipe
+   Historique de modifications :
+   Date           	Nom               	Description
+   =========================================================
+    20 avril 2021 / Olivier / Ajouter fonction Login qui affiche le form de login, récupère les erreurs liés à l’authentification et les affiche et finalement redirige l’utilisateur si l’authentification est complété ou bien que l’utilisateur est déjà connecté
+    20 avril 2021 / Olivier / Ajouter fonction changePassword qui permet de récupérer le nouveau mot de passe entré par l’utilisateur après sa première connexion au site
+    20 avril 2021 / Olivier / ajouter fonction logout associé à la route /logout permettant la déconnexion de l’utilisateur
+ ****************************************/
 
 namespace App\Controller;
 

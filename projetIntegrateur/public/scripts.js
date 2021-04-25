@@ -1,3 +1,31 @@
+/****************************************
+   Fichier : scripts.js
+   Auteur : Samuel Fournier, William Goupil
+   Fonctionnalité : À faire
+   Date : 19 avril 2021
+   Vérification :
+   Date           	Nom               	Approuvé
+   =========================================================
+   Historique de modifications :
+   Date           	Nom               	Description
+   =========================================================
+19 avril 2021	/ Samuel	/ Ajout du code pour la table inventaire avec datatable
+19 avril 2021	/ Samuel / Fait la fonction qui reçoit la QTE et le ID pour changer la QTE de la pièce, Le AJAX reste à faire
+	19 avril 2021	/ Samuel / Ajout de la partie AJAX pour changer les quantités
+	20 avril 2021	/ Samuel / Ajout du code pour la table inventaire avec datatable
+	20 avril 2021	/ Samuel / Ajout de la fonction AJAX pour envoyer le changement d’état
+	21 avril 2021 / Samuel / Fonction qui permet de remplir le fomulaire dynamiquement
+21 avril 2021 / Samuel / Fonction qui permet de clear le formulaire
+21 avril 2021 / Samuel / Fonction qui permet d’afficher des champs supplémentaires lorsque la case oui du formulaire est coché
+21 avril 2021 / Samuel / Fonction qui envoie en AJAX le retour d’une pièce
+24 avril 2021 / William / Ajout du code pour la table inventaire avec tableReportPiece
+24 avril 2021 / William / Correction du code pour la table inventaire avec tableReportPiece
+24 avril 2021 / William / Ajout du code pour la table inventaire avec tableReportUtilisateur
+24 avril 2021 / William / Ajout du code pour le filtre de tableReportPiece
+24 avril 2021 / William / Ajout du code pour la table inventaire avec tableReportReservation
+
+	
+ ****************************************/
 
 /* Custom filter pour filtrer la table par categorie */
 $.fn.dataTable.ext.search.push(

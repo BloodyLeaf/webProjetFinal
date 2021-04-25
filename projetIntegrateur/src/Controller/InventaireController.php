@@ -1,5 +1,32 @@
 <?php
 
+/****************************************
+   Fichier : InventaireController.php
+   Auteur : Samuel Fournier, William Goupil
+   Fonctionnalité : À faire
+   Date : 19 avril 2021
+   Vérification :
+   Date           	Nom               	Approuvé
+   =========================================================
+   25 avril 2021    / Olivier           Approuvé
+   Historique de modifications :
+   Date           	Nom               	Description
+   =========================================================
+    19 avril 2021	/ Samuel / Modification de la fonction index pour allez chercher la liste des pièces et catégorie
+    19 avril 2021	/ Samuel / Ajout de la fonction changeQTETotal dans le controlleur pour modifier les quantités avec AJAX
+    22 avril 2021	/ William / Ajout de la fonction addPiece dans le controlleur pour pouvoir ajouter une pièce dans la base de données
+    22 avril 2021	/ William / Ajout de la fonction modifyPiece dans le controlleur pour pouvoir modifier une pièce dans la base de données
+    23 avril 2021	/ William / debug de la fonction modifyPiece dans le controlleur
+    23 avril 2021	/ William / Ajout de la fonction deletePiece dans le controlleur pour pouvoir supprimer une pièce dans la base de données
+    23 avril 2021	/ William / Modification de la fonction modifyPiece dans le controlleur afin de passer les informations au form
+    24 avril 2021	/ William / Correction de la fonction modifyPiece dans le controlleur
+    24 avril 2021	/ William / Ajout du changement de version dans la fonction modifyPiece dans le controlleur
+    24 avril 2021	/ William / Ajout du changement de version dans la fonction addPiece dans le controlleur
+    24 avril 2021	/ William / Ajout de la fonction addCategorie dans le controlleur pour pouvoir supprimer une pièce dans la base de données
+
+ ****************************************/
+
+
 namespace App\Controller;
 
 use App\Entity\Categorie;

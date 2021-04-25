@@ -1,4 +1,22 @@
 <?php
+/****************************************
+   Fichier : Piece.php
+   Auteur : Samuel Fournier, Olivier Vigneault, William Goupil, Pier-Alexander Caron
+   Fonctionnalité : À faire
+   Date : 19 avril 2021
+   Vérification :
+   Date           	Nom               	Approuvé
+   =========================================================
+    25 avril 2021	Samuel		Approuvé
+   Historique de modifications :
+   Date           	Nom               	Description
+   =========================================================
+    19 Avril 2021	P-À 	Ajout d’une méthode pour retourner des info de base d’une piece
+    20 avril 2021	P-À	Ajout d’une méthode pour retourner la quantité avec les ID
+    22 Avril 2021 P-À	Ajout d’un méthode pour retourner le contenu entier d’une pieces
+ ****************************************/
+
+
 
 namespace App\Entity;
 

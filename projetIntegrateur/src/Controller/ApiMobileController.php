@@ -1,4 +1,26 @@
 <?php
+/****************************************
+   Fichier : ApiMobileController.php
+   Auteur : Samuel Fournier, Olivier Vigneault, William Goupil, Pier-Alexander Caron
+   Fonctionnalité : web13 ,web14, web16, web17 
+   Date : 19 avril 2021
+   Vérification :
+   Date           	Nom               	Approuvé
+   =========================================================
+25 avril 2021    Approuvé par l'équipe
+   Historique de modifications :
+   Date           	Nom               	Description
+   =========================================================
+    19 avril 	P-À		Premier Test pour l’api Création de la route 					/api-mobile/{id} et de la route /api-mobile-list
+    20 avril 	P-À		Tente de résoudre un probleme lié au route ( m'a malheureusement pris ma journée 
+    21 Avril	P-À		Résolution du probleme de route et ajout de la fonction supprimer qui ne fonctionne pas entiermeent
+    22 avril 	P-À		Tente de résoudre le probleme de la fonction supprimer et ajout de d’une fonction pour envoyer l'entièreté de l’inventaire et les états des commandes. Malheuresement j’ai des bug et elle ne sont pas fonctionnel
+    23 Avril 	P-À		Tente de regler les bug associer à la suppresion d’une commande, l’envoi de l’inventaire et l’Affichage des états. Pas reglé masi le probleme viens de doctrine lorsqu’il veut envoyer des clé étran
+    24 avril	P-À		Probleme de doctrine reglé fichier API complété
+
+
+ ****************************************/
+
 
 namespace App\Controller;
 

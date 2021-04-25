@@ -1,4 +1,19 @@
 <?php 
+/****************************************
+   Fichier : UserChecker.php
+   Auteur : Samuel Fournier, Olivier Vigneault, William Goupil, Pier-Alexander Caron
+   Fonctionnalité : À faire
+   Date : 19 avril 2021
+   Vérification :
+   Date           	Nom               	Approuvé
+   =========================================================
+   25 avril 2021    Approuvé par l'équipe
+   Historique de modifications :
+   Date           	Nom               	Description
+   =========================================================
+21 avril 2021 / Olivier / ajout des conditions dans la méthode checkPostAuth() qui permettent de vérifier lors de l’authentification si l’utilisateur est un administrateur et si c’est sa première connexion
+ ****************************************/
+
 namespace App\Security;
 
 use App\Entity\Utilisateur as AppUser;

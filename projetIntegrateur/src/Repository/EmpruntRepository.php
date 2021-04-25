@@ -1,4 +1,21 @@
 <?php
+/****************************************
+   Fichier : EmpruntRepository.php
+   Auteur : Samuel Fournier, Olivier Vigneault, William Goupil, Pier-Alexander Caron
+   Fonctionnalité : À faire
+   Date : 19 avril 2021
+   Vérification :
+   Date           	Nom               	Approuvé
+   =========================================================
+   25 avril 2021    Approuvé par l'équipe
+   Historique de modifications :
+   Date           	Nom               	Description
+   =========================================================
+20 avril 2021 / Samuel / Ajouter fonction lstReservation pour recevoir la liste des réservations
+20 avril 2021 / Samuel / Ajouter updateEtat, fonction qui permet de changer l’état d’une réservation
+24 avril 2021 / Willaim / Ajouter fonction lstAllReservation pour recevoir la liste des réservations
+ ****************************************/
+
 
 namespace App\Repository;
 

@@ -1,4 +1,20 @@
 <?php
+/****************************************
+   Fichier : ReportController.php
+   Auteur : Samuel Fournier
+   Fonctionnalité : À faire
+   Date : 19 avril 2021
+   Vérification :
+   Date           	Nom               	Approuvé
+   =========================================================
+   Historique de modifications :
+   Date           	Nom               	Description
+   =========================================================
+24 avril 2021	/ William / Ajout de la fonction reportPiece dans le controlleur
+24 avril 2021	/ William / Ajout de la fonction reportUtilisateur dans le controlleur
+24 avril 2021	/ William / Ajout de la fonction reportEmprunt dans le controlleur
+
+ ****************************************/
 
 namespace App\Controller;
 
