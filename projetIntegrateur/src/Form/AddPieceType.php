@@ -6,11 +6,12 @@ use App\Entity\Piece;
 use App\Entity\Categorie;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Validator\Constraints\PositiveOrZero;
 
 class AddPieceType extends AbstractType
 {
@@ -19,7 +20,7 @@ class AddPieceType extends AbstractType
         $builder
             ->add('nom', TextType::class, array('label' => 'Nom :'))
             ->add('description', TextType::class, array('label' => 'Description :'))
-            ->add('QteTotal', IntegerType::class, array('label' => 'Quantite total :'))
+            ->add('QteTotal', IntegerType::class, array('label' => 'Quantite total :','constraints'=> [new PositiveOrZero()]))
             
             ->add('idCategorie',EntityType::class,
                 array
