@@ -95,7 +95,7 @@ $.fn.dataTable.ext.search.push(
     }
     
       var filterEtat = $("#filterRapportEmprunt").val();   //Va chercher la valeur du select avec les filtres
-      var Etat = data[6];                           //Va chercher les valeurs des ID État qui sont dans une colonne caché
+      var Etat = data[5];                           //Va chercher les valeurs des ID État qui sont dans une colonne caché
 
       if ( ( filterEtat == "" ) ||                  // si le filtre est vide ou à un état en particulier, affiche le tout
            ( filterEtat == Etat ) )
@@ -295,7 +295,7 @@ tableReportUtilisateurs =  $('#ReportUtilisateurs').DataTable({
 
     "columnDefs": [
       {
-          "targets": [ 6 ],
+          "targets": [ 5 ],
           "visible": false,
           "searchable": true
       }
@@ -306,6 +306,11 @@ tableReportUtilisateurs =  $('#ReportUtilisateurs').DataTable({
   ],
   "paging":   false,
 });
+
+  //Event listener pour les filtres de la table réservation
+  $('#filterRapportEmprunt').change( function() {
+    tableRapportReservation.draw();
+  });
 } );
 
 

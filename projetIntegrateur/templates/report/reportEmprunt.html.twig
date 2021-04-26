@@ -37,7 +37,6 @@
             <th >Qte empruntée</th>
             <th >Date de retour</th>
             <th >État</th>
-            <th >Retourner</th>
             <th >EtatId</th>
             
         </tr>
@@ -50,16 +49,8 @@
                 <td> {{ reservation['Pieces'] }}</td>
                 <td> {{ reservation['qteActuelle'] }}</td>
                 <td> {{ reservation['dateRetourPrevue'] | date('Y-m-d') }}</td>
-                <td> <select name="etat" onchange="modifierEtat({{reservation['id']}}, this)">
-                        {% for etat in etats %}
-                            {% if etat.nom != "Terminer" %}
-                                <option value="{{etat.id}}" {% if reservation['Etat'] == etat.nom %} selected {% endif %}>{{etat.nom}} 
-                                </option>
-                            {% endif %}
-                        {% endfor %}
-                    </select>
-                </td>
-                <td> <button type="button" data-rowNb="{{row}}" data-idreservation="{{reservation['id']}}" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modalRetour" onclick="retourPieceForm(this)"> Retourner </button> </td>
+                <td> {{ reservation['Etat'] }}</td>
+    
                 <td>   {{reservation['idEtat']}}  </td>
          </tr>
          {% set row = row + 1 %}
@@ -72,7 +63,6 @@
             <th >Qte empruntée</th>
             <th >Date de retour</th>
             <th >État</th>
-            <th >Retourner</th>
             <th >EtatId</th>
             </tr>
         </tfoot>

@@ -37,8 +37,8 @@ class UtilisateurFormType extends AbstractType
     {
         $builder
             ->add('email', TextType::class, ['label' => false])
-            ->add('nom', TextType::class, ['label' => false, 'constraints' => [new Regex("[^0-9]", "Votre nom peut seulement contenir des lettres.")]])
-            ->add('prenom', TextType::class, ['label' => false, 'constraints' => [new Regex("[^0-9]", "Votre prenom peut seulement contenir des lettres.")]])
+            ->add('nom', TextType::class, ['label' => false, /*'constraints' => [new Regex("[^a-z]", "Votre nom peut seulement contenir des lettres.")]*/])
+            ->add('prenom', TextType::class, ['label' => false, /*'constraints' => [new Regex("[^a-z]", "Votre prenom peut seulement contenir des lettres.")]*/])
             ->add('noGroupe', NumberType::class, ['label' => false])
             ->add('roles',ChoiceType::class,
                 array('choices' => array(
