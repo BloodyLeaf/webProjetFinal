@@ -24,6 +24,7 @@
 
 namespace App\Controller;
 
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,6 +34,10 @@ use App\Entity\Emprunt;
 use App\Entity\Categorie;
 use App\Entity\EtatEmprunt;
 use App\Entity\BDVersion;
+use App\Entity\Session;
+use App\Entity\Utilisateur;
+use Symfony\Component\Validator\Constraints\DateTime;
+
 
 class ApiMobileController extends AbstractController
 {
@@ -73,11 +78,12 @@ class ApiMobileController extends AbstractController
            // if ($qqt > 0) {
                 $pieceDesc = $piece->toArrayInventory();
                 array_push($pieceArray,$pieceDesc);
+                
             //}
         }
         
-
-        return new JsonResponse($pieceArray, Response::HTTP_OK);
+        $lst = ['lstPiece' =>$pieceArray];
+        return new JsonResponse($lst, Response::HTTP_OK);
     }
 
     /**
@@ -102,7 +108,7 @@ class ApiMobileController extends AbstractController
     }
 
     /**
-     * @Route("/api-mobile-annulerempruntstate/{id}", name="api_piece_annulerEmprunt", methods={"GET"})
+     * @Route("/api-mobile-annuleremprunt/{id}", name="api_piece_annulerEmprunt", methods={"GET"})
      */
     public function annulerEmprunt($id): JsonResponse
     { 
@@ -131,7 +137,7 @@ class ApiMobileController extends AbstractController
            
             $message = ['codeErreur' => '1'];
         }
-        var_dump($message);
+        
         return new JsonResponse($message, Response::HTTP_OK);
     }
     /**
@@ -157,7 +163,8 @@ class ApiMobileController extends AbstractController
             }
         }
         
-        return new JsonResponse($pieceArray, Response::HTTP_OK);
+        $lst = ['lstPiece' =>$pieceArray];
+        return new JsonResponse($lst, Response::HTTP_OK);
     }
     /**
      * @Route("/api-mobile-checkBDVersion/{version}", name="api_piece_checkBDVersion", methods={"GET"})
@@ -178,6 +185,61 @@ class ApiMobileController extends AbstractController
         }
 
         
+        return new JsonResponse($message, Response::HTTP_OK);
+    }
+    /**
+     * @Route("/api-mobile-reserverPieces/{idPiece}/{qqtPiece}/{idUser}/{retour}", name="api_piece_ajoutEmprunt", methods={"GET"})
+     */
+    public function ajoutEmprunt($idPiece,$qqtPiece,$idUser,$retour): JsonResponse
+    {
+        //TODO ajout check si qqtPiece<piecesDisponible
+        //TODO check si user peut reserver
+        
+        //Modifier qqtPiece
+        $emp = $this->getDoctrine()->getManager();
+        $piecesRepository = $emp->getRepository(Piece::class);
+        $piece = $piecesRepository->find($idPiece);
+       
+        $piecesRepository->updateQte($idPiece,$piece->getQteEmprunter() + $qqtPiece);
+
+
+        //getSessionCourante
+        $emS = $this->getDoctrine()->getManager();
+        $sessionRepository = $emS->getRepository(Session::class);
+        $sessionID = $sessionRepository->getLastSession();
+        $session = $sessionRepository->find($sessionID);
+        var_dump($session);
+        
+        $user = new Utilisateur();
+        $emU = $this->getDoctrine()->getManager();
+        $userRepository = $emU->getRepository(Utilisateur::class);
+        $user = $userRepository->find($idUser);
+        
+
+        $today = new \DateTime();
+        $dureEmprunt = $retour ." days";
+        $dateRetour = new \DateTime();
+        date_add($dateRetour, date_interval_create_from_date_string($dureEmprunt));
+        $emprunt = new Emprunt();
+        //Creation de l'emprunt a insert
+        $emprunt->setQteInitiale($qqtPiece);
+        $emprunt->setDateDemande($today);
+        $emprunt->setDateRetourPrevue($dateRetour);
+        $emprunt->setIdUtilisateur($user);
+        $emprunt->setIdPiece($piece);
+        $emprunt->setIdSession($session);
+        $emprunt->setIdEtat('1');
+        $emprunt->setQteActuelle($qqtPiece);
+        
+        
+        //Ajout emprunt
+        $em = $this->getDoctrine()->getManager();
+        $empruntRepository = $em->getRepository(Emprunt::class);
+        $empruntRepository->persist($emprunt);
+        $empruntRepository->flush();
+
+        $message = ["code" =>"ok"];
+
         return new JsonResponse($message, Response::HTTP_OK);
     }
     
