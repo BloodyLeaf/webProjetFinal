@@ -109,4 +109,15 @@ class EmpruntRepository extends ServiceEntityRepository
         ->createQuery("INSERT into App\Entity\Emprunt e (idUtilisateur,idPiece,idSession,idEtat,dateDemande,dateRetourPrevue,QteInitiale,qteActuelle) VALUES ($idUser,$idPieces,)")->execute();
         
     }
+    public function lstAllReservationForUser($idUser){
+
+        
+        $listeReservation = $this->getEntityManager()
+        ->createQuery(" SELECT e.id, e.qteActuelle, e.dateRetourPrevue, IDENTITY(e.idPiece), IDENTITY(e.idUtilisateur), e.dateDemande, ee.nom AS Etat from App\Entity\Emprunt e
+        JOIN App\Entity\EtatEmprunt ee WITH e.idEtat = ee.id
+        WHERE e.idUtilisateur = $idUser AND ee.nom != 'terminer'")
+        ->getArrayResult();
+
+        return $listeReservation;
+    }
 }

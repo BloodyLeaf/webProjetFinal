@@ -170,6 +170,28 @@ class ApiMobileController extends AbstractController implements UserInterface
         return new JsonResponse($lst, Response::HTTP_OK);
     }
     /**
+     * @Route("/api-mobile-getCategories", name="api-mobile-getCategories", methods={"GET"})
+     */
+    public function getallCategorie(): JsonResponse
+    {
+        
+        $categorierepository = $this->getDoctrine()->getManager()->getRepository(Categorie::class);
+        $lstCategorie = $categorierepository->findAll();
+
+        $catArrat = [];
+        foreach($lstCategorie as $cat){
+            //$qqt = ($piece->getQteTotal()) - ($piece->getQteEmprunter()) - ($piece->getQteBrise()) - ($piece->getQtePerdu());
+           // if ($qqt > 0) {
+                $catDescr = $cat->catDescription();
+                array_push($catArrat,$catDescr);
+                
+            //}
+        }
+        
+        $lst = ['lstcat' =>$catArrat];
+        return new JsonResponse($lst, Response::HTTP_OK);
+    }
+    /**
      * @Route("/api-mobile-checkBDVersion/{version}", name="api_piece_checkBDVersion", methods={"GET"})
      */
     public function checkBDVersion($version): JsonResponse
@@ -190,9 +212,38 @@ class ApiMobileController extends AbstractController implements UserInterface
         
         return new JsonResponse($message, Response::HTTP_OK);
     }
-
     /**
-     * @Route("/api-mobile-authenticate", name="api_piece_stateEmprunt", methods={"POST"})
+     * @Route("/api-mobile-checkEmpruntUser/{userId}", name="api-mobile-checkEmpruntUser", methods={"GET"})
+     */
+    public function empruntParUser($userId): JsonResponse{
+        
+        $em = $this->getDoctrine()->getManager();
+
+        $empruntRepository = $em->getRepository(Emprunt::class);
+        $lstEmprunt = $empruntRepository->lstAllReservationForUser($userId);
+        
+       
+
+        /*$empruntArray = [];
+        var_dump($lstEmprunt);
+        die();
+        //$user->getEmprunts()
+        foreach($lstEmprunt as $emp){
+
+                $state = $etatRepository->findBy($emp->getIdEtat());
+            
+                //var_dump($emp);
+                $empruntDescription = $emp->empDescription($state->getNom());
+                array_push($empruntArray,$empruntDescription);
+                
+        }*/
+        
+
+        $message = ["lstEmprunt"=>$lstEmprunt];
+        return new JsonResponse($message, Response::HTTP_OK);
+    }
+    /**
+     * @Route("/api-mobile-authenticate", name="api-mobile-authenticate", methods={"POST"})
      */
     public function authenticateUtilisateur(Request $request, UserPasswordEncoderInterface $passwordEncoder): JsonResponse
     {
@@ -208,6 +259,10 @@ class ApiMobileController extends AbstractController implements UserInterface
 
         $user = $utilisateurRepository->findOneBy(array('email' => $data['email']));
         
+        if($user == NULL){
+            $response = ['id' => '0'];            
+            return new JsonResponse($response, Response::HTTP_OK);
+        }
         $result = $passwordEncoder->isPasswordValid($user, $data['password']);
 
         if($result){
@@ -221,7 +276,7 @@ class ApiMobileController extends AbstractController implements UserInterface
     }
 
     /**
-     * @Route("/api-mobile-new-password", name="api_piece_stateEmprunt", methods={"POST"})
+     * @Route("/api-mobile-new-password", name="api_mobile_new_password", methods={"POST"})
      */
     public function changePasswordUser(Request $request, UserPasswordEncoderInterface $passwordEncoder): JsonResponse
     {
@@ -232,10 +287,12 @@ class ApiMobileController extends AbstractController implements UserInterface
             return new JsonResponse($erreur, Response::HTTP_OK);
         }
 
+        /*
         if (!is_bool($data['conditions'])) {
             $erreur = "la valeur 'conditions' doit être de type boolean.";
             return new JsonResponse($erreur, Response::HTTP_OK);
         }
+        */
 
         $em = $this->getDoctrine()->getManager();
         $utilisateurRepository = $em->getRepository(Utilisateur::class);
@@ -249,62 +306,125 @@ class ApiMobileController extends AbstractController implements UserInterface
             )
         );
 
-        $user->setConditionUtilisation($data['conditions']);
+        $user->setPasswordReset(false);
+        $user->setConditionUtilisation(true);
 
-        return new JsonResponse('le mot de passe a été changé avec succès !', Response::HTTP_OK); 
-    }
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
 
-    public function getRoles(){
+        $responseMessage = ["message" => "le mot de passe a été changé avec succès !"];
 
-
-        return [];
-    }
-
-    /**
-     * Returns the password used to authenticate the user.
-     *
-     * This should be the encoded password. On authentication, a plain-text
-     * password will be salted, encoded, and then compared to this value.
-     *
-     * @return string|null The encoded password if any
-     */
-    public function getPassword(){
-
-        return null;
+        return new JsonResponse($responseMessage, Response::HTTP_OK); 
     }
 
     /**
-     * Returns the salt that was originally used to encode the password.
-     *
-     * This can return null if the password was not encoded using a salt.
-     *
-     * @return string|null The salt
+     * @Route("/api-mobile-passwordStatus", name="api_mobile_passwordStatus", methods={"POST"})
      */
-    public function getSalt(){
-        return null;
+    public function getPasswordStatus(Request $request): JsonResponse
+    {
+        $data = $request->toArray();
+
+        $em = $this->getDoctrine()->getManager();
+        $utilisateurRepository = $em->getRepository(Utilisateur::class);
+
+        $user = $utilisateurRepository->findOneBy(array('email' => $data['email']));
+
+        if ($user) {
+            $response = ['changePassword' => ($user->getPasswordReset()) ? 'true' : 'false'];
+            return new JsonResponse($response, Response::HTTP_OK);
+        } else {
+            $erreur = "aucun utilisateur n'est associé à cette adresse courriel.";
+            return new JsonResponse($erreur, Response::HTTP_OK);
+        }
+    }
+
+     /**
+     * @Route("/api-mobile-emailUsed", name="api_mobile_emailUsed", methods={"POST"})
+     */
+    public function getEmailUsed(Request $request): JsonResponse
+    {
+        $data = $request->toArray();
+
+        $em = $this->getDoctrine()->getManager();
+        $utilisateurRepository = $em->getRepository(Utilisateur::class);
+
+        $user = $utilisateurRepository->findOneBy(array('email' => $data['email']));
+
+        $response = "";
+        if ($user) {
+            $response = ["emailUsed" => "true"];
+        } else {
+            $response = ["emailUsed" => "false"];
+        }
+
+        return new JsonResponse($response, Response::HTTP_OK);
     }
 
     /**
-     * Returns the username used to authenticate the user.
-     *
-     * @return string The username
+     * @Route("/api-mobile-verifyPassword", name="api_mobile_verifyPassword", methods={"POST"})
      */
-    public function getUsername(){
-        return null;
+    public function verifyPassword(Request $request, UserPasswordEncoderInterface $passwordEncoder): JsonResponse
+    {
+        $data = $request->toArray();
+        $user = new Utilisateur();
+
+        $em = $this->getDoctrine()->getManager();
+        $utilisateurRepository = $em->getRepository(Utilisateur::class);
+
+        $user = $utilisateurRepository->findOneBy(array('email' => $data['email']));
+
+        $result = $passwordEncoder->isPasswordValid($user, $data['password']);
+
+        $response = ["samePassword" => ($result) ? 'true' : 'false'];
+
+        return new JsonResponse($response, Response::HTTP_OK);
     }
 
     /**
-     * Removes sensitive data from the user.
-     *
-     * This is important if, at any given point, sensitive information like
-     * the plain-text password is stored on this object.
+     * @Route("/api-mobile-resetPassword", name="api_mobile_resetPassword", methods={"POST"})
      */
-    public function eraseCredentials() {
-        return [];
+    public function resetPassword(Request $request, UserPasswordEncoderInterface $passwordEncoder, \Swift_Mailer $mailer): JsonResponse
+    {
+        $data = $request->toArray();
+
+        $em = $this->getDoctrine()->getManager();
+        $utilisateurRepository = $em->getRepository(Utilisateur::class);
+
+        $user = $utilisateurRepository->findOneBy(array('email' => $data['email']));
+
+        $password = getToken(12);
+
+        $user->setPassword(
+                $passwordEncoder->encodePassword(
+                    $user,
+                    $password
+                )
+            );
+
+        $user->setPasswordReset(true);
+
+        $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+        $message = (new \Swift_Message("Réinitialisation du mot de passe - site d'emprunt du Cégep de Sherbrooke (TI)"))
+                ->setFrom('pieces.de.nico@gmail.com')
+                ->setTo($data['email'])
+                ->setBody(
+                    $this->renderView(
+                        'email/reinitialiserMDP.html.twig', [
+                            'password' => $password
+                        ]
+                        ),
+                        'text/html'
+                    );
+        $mailer->send($message);
+
+        $messageResponse = ["message" => "mot de passe réinitialisé avec succès !"];
+
+        return new JsonResponse($messageResponse, Response::HTTP_OK);
     }
-    /**
-     * 
-     */
     /**
      * @Route("/api-mobile-reserverPieces/{idPiece}/{qqtPiece}/{idUser}/{retour}", name="api_piece_ajoutEmprunt", methods={"GET"})
      */
@@ -366,6 +486,55 @@ class ApiMobileController extends AbstractController implements UserInterface
         $message = ["idEmprunt" =>$emprunt->getId()];
 
         return new JsonResponse($message, Response::HTTP_OK);
+    }
+    
+    public function getRoles(){
+
+
+        return [];
+    }
+
+    /**
+     * Returns the password used to authenticate the user.
+     *
+     * This should be the encoded password. On authentication, a plain-text
+     * password will be salted, encoded, and then compared to this value.
+     *
+     * @return string|null The encoded password if any
+     */
+    public function getPassword(){
+
+        return null;
+    }
+
+    /**
+     * Returns the salt that was originally used to encode the password.
+     *
+     * This can return null if the password was not encoded using a salt.
+     *
+     * @return string|null The salt
+     */
+    public function getSalt(){
+        return null;
+    }
+
+    /**
+     * Returns the username used to authenticate the user.
+     *
+     * @return string The username
+     */
+    public function getUsername(){
+        return null;
+    }
+
+    /**
+     * Removes sensitive data from the user.
+     *
+     * This is important if, at any given point, sensitive information like
+     * the plain-text password is stored on this object.
+     */
+    public function eraseCredentials() {
+        return [];
     }
 }
 

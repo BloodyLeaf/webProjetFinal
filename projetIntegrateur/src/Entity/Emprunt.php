@@ -230,5 +230,14 @@ class Emprunt
             'nomState' => $nomState
         ];
     }
-
+    public function empDescription($etatEmprunt){
+        return [
+            'id' => $this->getId(),
+            'idPiece' => $this->getIdPiece(),
+            'qqtPiece'=>$this->getQteActuelle(),
+            'dateDemande'=>$this->getDateDemande(),
+            'dateRetour'=>$this->getDateRetourPrevue(),
+            'etat'=>$etatEmprunt
+        ];
+    }
 }

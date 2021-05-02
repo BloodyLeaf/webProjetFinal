@@ -93,4 +93,12 @@ class Categorie
 
         return $this;
     }
+    public function catDescription(){
+        
+        return[
+            "id"=> $this->getId(),
+            "nom"=> $this->getNom()
+        ];
+    }
 }
+
