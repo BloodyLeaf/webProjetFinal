@@ -204,17 +204,24 @@ class ApiMobileController extends AbstractController
 
 
         //getSessionCourante
+        $sessionDeCours = new Session();
         $emS = $this->getDoctrine()->getManager();
         $sessionRepository = $emS->getRepository(Session::class);
-        $sessionID = $sessionRepository->getLastSession();
-        $session = $sessionRepository->find($sessionID);
-        var_dump($session);
         
+        $sessionID = $sessionRepository->getLastSession();
+       
+        $sessionDeCours = $sessionRepository->find($sessionID[0]['id']);
+       
+
         $user = new Utilisateur();
         $emU = $this->getDoctrine()->getManager();
         $userRepository = $emU->getRepository(Utilisateur::class);
         $user = $userRepository->find($idUser);
         
+        $etat = new EtatEmprunt();
+        $emE = $this->getDoctrine()->getManager();
+        $etatRepo = $emE ->getRepository(EtatEmprunt::class);
+        $etat = $etatRepo->find(1);
 
         $today = new \DateTime();
         $dureEmprunt = $retour ." days";
@@ -227,18 +234,18 @@ class ApiMobileController extends AbstractController
         $emprunt->setDateRetourPrevue($dateRetour);
         $emprunt->setIdUtilisateur($user);
         $emprunt->setIdPiece($piece);
-        $emprunt->setIdSession($session);
-        $emprunt->setIdEtat('1');
+        $emprunt->setIdSession($sessionDeCours);
+        $emprunt->setIdEtat($etat);
         $emprunt->setQteActuelle($qqtPiece);
         
         
         //Ajout emprunt
         $em = $this->getDoctrine()->getManager();
         $empruntRepository = $em->getRepository(Emprunt::class);
-        $empruntRepository->persist($emprunt);
-        $empruntRepository->flush();
+        $em->persist($emprunt);
+        $em->flush();
 
-        $message = ["code" =>"ok"];
+        $message = ["idEmprunt" =>$emprunt->getId()];
 
         return new JsonResponse($message, Response::HTTP_OK);
     }
