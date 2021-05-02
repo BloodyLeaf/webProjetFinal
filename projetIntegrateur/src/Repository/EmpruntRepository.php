@@ -102,4 +102,11 @@ class EmpruntRepository extends ServiceEntityRepository
         $this->getEntityManager()
         ->createQuery("UPDATE App\Entity\Emprunt e SET e.idEtat = $etat WHERE e.id = $id")->execute();
     }
+    public function newEmprunt($idUser,$idPieces,$qqtPieces,$idSession,$todaym,$dateRetour){
+        
+
+        $this->getEntityManager()
+        ->createQuery("INSERT into App\Entity\Emprunt e (idUtilisateur,idPiece,idSession,idEtat,dateDemande,dateRetourPrevue,QteInitiale,qteActuelle) VALUES ($idUser,$idPieces,)")->execute();
+        
+    }
 }

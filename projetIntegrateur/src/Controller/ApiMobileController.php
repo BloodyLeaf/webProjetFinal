@@ -31,6 +31,7 @@ use App\Entity\Utilisateur;
 use App\Entity\Categorie;
 use App\Entity\EtatEmprunt;
 use App\Entity\BDVersion;
+use App\Entity\Session;
 use Symfony\Bundle\MakerBundle\Validator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -80,11 +81,12 @@ class ApiMobileController extends AbstractController implements UserInterface
            // if ($qqt > 0) {
                 $pieceDesc = $piece->toArrayInventory();
                 array_push($pieceArray,$pieceDesc);
+                
             //}
         }
         
-
-        return new JsonResponse($pieceArray, Response::HTTP_OK);
+        $lst = ['lstPiece' =>$pieceArray];
+        return new JsonResponse($lst, Response::HTTP_OK);
     }
 
     /**
@@ -109,7 +111,7 @@ class ApiMobileController extends AbstractController implements UserInterface
     }
 
     /**
-     * @Route("/api-mobile-annulerempruntstate/{id}", name="api_piece_annulerEmprunt", methods={"GET"})
+     * @Route("/api-mobile-annuleremprunt/{id}", name="api_piece_annulerEmprunt", methods={"GET"})
      */
     public function annulerEmprunt($id): JsonResponse
     { 
@@ -138,7 +140,7 @@ class ApiMobileController extends AbstractController implements UserInterface
            
             $message = ['codeErreur' => '1'];
         }
-        var_dump($message);
+        
         return new JsonResponse($message, Response::HTTP_OK);
     }
     /**
@@ -164,7 +166,8 @@ class ApiMobileController extends AbstractController implements UserInterface
             }
         }
         
-        return new JsonResponse($pieceArray, Response::HTTP_OK);
+        $lst = ['lstPiece' =>$pieceArray];
+        return new JsonResponse($lst, Response::HTTP_OK);
     }
     /**
      * @Route("/api-mobile-checkBDVersion/{version}", name="api_piece_checkBDVersion", methods={"GET"})
@@ -299,7 +302,71 @@ class ApiMobileController extends AbstractController implements UserInterface
     public function eraseCredentials() {
         return [];
     }
-    
+    /**
+     * 
+     */
+    /**
+     * @Route("/api-mobile-reserverPieces/{idPiece}/{qqtPiece}/{idUser}/{retour}", name="api_piece_ajoutEmprunt", methods={"GET"})
+     */
+    public function ajoutEmprunt($idPiece,$qqtPiece,$idUser,$retour): JsonResponse
+    {
+        //TODO ajout check si qqtPiece<piecesDisponible
+        //TODO check si user peut reserver
+        
+        //Modifier qqtPiece
+        $emp = $this->getDoctrine()->getManager();
+        $piecesRepository = $emp->getRepository(Piece::class);
+        $piece = $piecesRepository->find($idPiece);
+       
+        $piecesRepository->updateQte($idPiece,$piece->getQteEmprunter() + $qqtPiece);
+
+
+        //getSessionCourante
+        $sessionDeCours = new Session();
+        $emS = $this->getDoctrine()->getManager();
+        $sessionRepository = $emS->getRepository(Session::class);
+        
+        $sessionID = $sessionRepository->getLastSession();
+       
+        $sessionDeCours = $sessionRepository->find($sessionID[0]['id']);
+       
+
+        $user = new Utilisateur();
+        $emU = $this->getDoctrine()->getManager();
+        $userRepository = $emU->getRepository(Utilisateur::class);
+        $user = $userRepository->find($idUser);
+        
+        $etat = new EtatEmprunt();
+        $emE = $this->getDoctrine()->getManager();
+        $etatRepo = $emE ->getRepository(EtatEmprunt::class);
+        $etat = $etatRepo->find(1);
+
+        $today = new \DateTime();
+        $dureEmprunt = $retour ." days";
+        $dateRetour = new \DateTime();
+        date_add($dateRetour, date_interval_create_from_date_string($dureEmprunt));
+        $emprunt = new Emprunt();
+        //Creation de l'emprunt a insert
+        $emprunt->setQteInitiale($qqtPiece);
+        $emprunt->setDateDemande($today);
+        $emprunt->setDateRetourPrevue($dateRetour);
+        $emprunt->setIdUtilisateur($user);
+        $emprunt->setIdPiece($piece);
+        $emprunt->setIdSession($sessionDeCours);
+        $emprunt->setIdEtat($etat);
+        $emprunt->setQteActuelle($qqtPiece);
+        
+        
+        //Ajout emprunt
+        $em = $this->getDoctrine()->getManager();
+        $empruntRepository = $em->getRepository(Emprunt::class);
+        $em->persist($emprunt);
+        $em->flush();
+
+        $message = ["idEmprunt" =>$emprunt->getId()];
+
+        return new JsonResponse($message, Response::HTTP_OK);
+    }
 }
 
     

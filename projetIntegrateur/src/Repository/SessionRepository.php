@@ -58,4 +58,13 @@ class SessionRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function getLastSession(){
+        $string = "App\Entity\Session";
+        $sessionID = $this->getEntityManager()
+        ->createQuery("SELECT s.id FROM $string s ORDER BY s.id DESC ")->setMaxResults(1)
+        ->getArrayResult();
+       
+        
+        return $sessionID;
+    }
 }
